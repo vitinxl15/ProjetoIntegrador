@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro - Focinho Gelado</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <header>
+    <div class="headerContainer">
+      <div class="logo">
+        <img src="img/logo.png" class="logoImg" alt="Logo" />
+        <h1>Focinho Gelado</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="cadastro.html">Cadastre-se</a></li>
+          <li><a href="login.html">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div id="saudacaoUsuario" class="saudacao"></div>
+  </header>
+
+  <main class="formContainer">
+    <h2>Cadastre-se</h2>
+    <form id="formCadastro">
+      <input type="text" id="nome" placeholder="Nome completo" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="senha" placeholder="Senha" required />
+      <button type="submit" class="btn">Cadastrar</button>
+    </form>
+    <p>Já tem conta? <a href="login.html">Faça login</a></p>
+  </main>
+
+  <footer style="position: absolute; bottom: 0; width: 100%; left: 0; justify-content: center; display: flex;">
+    <p>&copy; Focinho Gelado - 2025</p>
+  </footer>
+
+  <script src="script/app.js"></script>
+
+</body>
+</html>
