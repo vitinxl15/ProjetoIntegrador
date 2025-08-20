@@ -75,9 +75,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (usuario) {
         localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
-        alert(`Bem-vindo(a), ${usuario.nome}!`);
+        if(usuario.nome === "admin"){
+          window.location.href = "adm.html";
+        }
+        else{
+          alert(`Bem-vindo(a), ${usuario.nome}!`);
         window.location.href = "index.html";
-      } else {
+        }
+        
+      } 
+      else {
         alert("Email ou senha inválidos.");
       }
     });
