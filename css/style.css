@@ -211,53 +211,7 @@ footer {
   font-weight: bold;
   color: #1b1b1b;
 }
-.pernilContainer{
-    width: 100%;
-    
-    text-align: center;
-   margin-top: 0%;
-    margin-bottom: 80px;
-    display: flex;
-    height: 5vh;
-    background-color: brown;
-}
-.pernilCategory{
-  width: 25%;
-  border: 1px solid #1b1b1b;
-  border-bottom: none;
-  border-top: none;
-  text-align: center;
-  margin: auto;
-  
-}
-.pernilContent{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  background-color: #4b2685;
-  padding: 40px 20px;
-  margin-left: 10vw;
-  margin-right: 10vw;
-  margin-bottom: 10vh;
-  text-align: center;
-  border-radius: 10px;
-  border: 1px solid #1b1b1b;
-  height: 60vh;
-}
-.pernilDireito{
-  height: 100%;
-  background-color: #24dada;
-  width: 50vw;
-}
-.pernilEsquerdo{
-  height: 100%;
-  background-color: #dde668;
-  width: 50vw;
-}
 
-.pernilCategory:hover{
-  background-color: rgb(36, 205, 218);
-}
 @media (max-width: 768px) {
   .sobreServicosContainer {
     flex-direction: column;
@@ -441,4 +395,7 @@ form button:hover {
   text-align: right;
   padding-right: 20px;
   padding-top: 5px;
+}
+li{
+  z-index: 99;
 }
