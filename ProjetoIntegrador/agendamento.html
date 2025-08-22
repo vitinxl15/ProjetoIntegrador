@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Focinho Gelado</title>
+</head>
+
+<body>
+    <header>
+        <div class="headerContainer">
+            <div class="logo">
+                <img src="img/logo.png" class="logoImg" alt="Logo" />
+                <h1>Focinho Gelado</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class =agdContainer>
+        <div class="agd">
+            <h2>Agendamento</h2>
+            <form>
+                <label for="cachorro">Nome do Cachorro:</label>
+                <input type="text" id="cachorro" name="cachorro" required>
+                <label for="endereco">Endereço:</label>
+                <input type="text" id="endereco" name="endereco" required>
+                <label for="data">Data:</label>
+                <input type="date" id="data" name="data" required>
+                <label for="serviço">Serviço:</label>
+                <select id="serviço" name="serviço" required>
+                    <option value="">Selecione um serviço</option>
+                    <option value="Banho">Banho</option>
+                    <option value="Tosa">Tosa</option>
+                    <option value="Hidratação">Hidratação</option>
+                    <option value="Unhas">Unhas</option>
+                    <option value="Escovação">Escovação</option>
+                    <option value="Consulta">Consulta</option>
+                </select>
+                
+                <button type="submit">Agendar</button>
+
+            </form>
+        </div>
+    </div>
+    
+    <footer style="position: relative; bottom: 0; width: 100%; left: 0; justify-content: center; display: flex;">
+        <p>&copy; Focinho Gelado - 2019</p>
+    </footer>
+
+    <script src="script/app.js"></script>
+
+</body>
+</html>

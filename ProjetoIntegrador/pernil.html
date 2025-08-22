@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/pernil.css" />
+  <title>Focinho Gelado</title>
+</head>
+
+<body>
+  <header>
+    <div class="headerContainer">
+      <div class="logo">
+        <img src="img/logo.png" class="logoImg" alt="Logo" />
+        <h1>Focinho Gelado</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+            
+            <li id="btnSair" ><a href="#">Sair</a></li>
+        </ul>
+      </nav>
+    </div>
+    
+  </header>
+
+  <div class ="pernilContainer">
+    <div class="pernilCategory" id="infoPerfil">
+        <p>Pernil</p>
+    </div>
+    <div class="pernilCategory" id ="infoDog">
+        <p>Pernil</p>
+    </div>
+    <div class="pernilCategory" id = "agendamentos">
+        <p>Pernil</p>
+    </div>
+  </div>
+ <div class="pernilContent">
+    <div class="informacoes"style="display: flex;" id ="informacoes">
+     <form id="formPerfil">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="endereco">Endereço:</label>
+        <input type="text" id="endereco" name="endereco" required>
+
+        <label for="telefone">Telefone:</label>
+        <input type="tel" id="telefone" name="telefone" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+
+        <label for="confirmarSenha">Confirmar Senha:</label>
+        <input type="password" id="confirmarSenha" name="confirmarSenha" required>
+
+        <button type="submit">Salvar</button>
+     </form>
+    </div>
+    <div class ="informacoes" style="display: none;" id ="cachorros">
+        <ul id="pernilList"> Seus cachorros: </ul>
+    </div>
+    <div class="informacoes"style="display: none;" id = "agenda">
+     <ul id ="agendas" > Seus agendamentos: </ul>
+      <li> TESTE</li>
+      <li> TESTE</li>
+      <li> TESTE</li>
+      <li> TESTE</li>
+      <li> TESTE</li>
+      <li> TESTE</li>
+       <li> TESTE</li>
+      <li> TESTE</li>
+      <li> TESTE</li>
+      <li> TESTE</li>
+      <li> TESTE</li>
+      <li> TESTE</li>
+       <li> TESTE</li>
+      <li> TESTE</li>
+      <li> TESTE</li>
+      <li> TESTE</li>
+      <li> TESTE</li>
+      <li> TESTE</li>
+    </div>
+     
+ </div>
+
+
+
+
+
+  <footer style="position: relative; bottom: 0; width: 100%; left: 0; justify-content: center; display: flex;">
+    <p>&copy; Focinho Gelado - 2025</p>
+  </footer>
+
+  <script src="script/app.js"></script>
+  <script src="script/pernil.js"></script>
+
+</body>
+</html>

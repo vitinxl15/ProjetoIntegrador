@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/style.css" />
+  <title>Focinho Gelado</title>
+</head>
+
+<body>
+  <header>
+    <div class="headerContainer">
+      <div class="logo">
+        <img src="img/logo.png" class="logoImg" alt="Logo" />
+        <h1>Focinho Gelado</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+            <li id="btnCadastro"><a href="cadastro.html">Cadastre-se</a></li>
+            <li id="btnLogin"><a href="login.html">Login</a></li>
+            <li id="btnSair" style="display:none;"><a href="#">Sair</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div id="saudacaoUsuario" class="saudacao"></div>
+    
+  </header>
+  
+  <div class="bannerContainer">
+    <img src="img/banner.png" class="bannerImg" alt="Banner" />
+  </div>
+  <div class="catalogo">
+    <h2>Serviços</h2>
+
+    <div class="carousel-container">
+      <div id="banho" class="catalogoCard">
+        <img src="img/banho.png" >
+        <p>Banho</p>
+        <a href="sobre.html#banho"><button class="btn">Sobre</button></a>
+      </div>
+
+      <div class="catalogoCard"><img src="img/banho.png" id="tosa">
+        <p>Tosa</p>
+        <a href="sobre.html#tosa"><button class="btn">Sobre</button></a>
+      </div>
+
+      <div class="catalogoCard"><img src="img/banho.png" id="hidratacao">
+        <p>Hidratação</p>
+        <a href="sobre.html#hidratacao"><button class="btn">Sobre</button></a>
+      </div>
+
+      <div class="catalogoCard"><img src="img/banho.png" id="unhas">
+        <p>Unhas</p>
+        <a href="sobre.html#unhas"><button class="btn">Sobre</button></a>
+      </div>
+
+      <div class="catalogoCard"><img src="img/banho.png" id="escovação">
+        <p>Escovação</p>
+        <a href="sobre.html#escovacao"><button class="btn">Sobre</button></a>
+      </div>
+
+      <div class="catalogoCard"><img src="img/banho.png" id="consulta">
+        <p>Consulta</p>
+        <a href="sobre.html#consulta"><button class="btn">Sobre</button></a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="sobre">
+    <div class="sobreNos">
+      <h2>Sobre Nós</h2>
+      <p>Um lugar onde você pode encontrar o melhor cuidado para seu pet</p>
+    </div>
+    <div class="sobreServicos">
+      <h2>Nossos Serviços</h2>
+      <p>Oferecemos serviços de qualidade para seu pet</p>
+    </div>
+  </div>
+
+  <footer style="position: relative; bottom: 0; width: 100%; left: 0; justify-content: center; display: flex;">
+    <p>&copy; Focinho Gelado - 2025</p>
+  </footer>
+
+  <script src="script/app.js"></script>
+
+</body>
+</html>

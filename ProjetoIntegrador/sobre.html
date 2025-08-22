@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/style.css" />
+  <title>Focinho Gelado</title>
+</head>
+
+<body>
+  <header>
+    <div class="headerContainer">
+      <div class="logo">
+        <img src="img/logo.png" class="logoImg" alt="Logo" />
+        <h1>Focinho Gelado</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+            <li id="btnCadastro"><a href="cadastro.html">Cadastre-se</a></li>
+            <li id="btnLogin"><a href="login.html">Login</a></li>
+            <li id="btnSair" style="display:none;"><a href="#">Sair</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div id="saudacaoUsuario" class="saudacao"></div>
+    
+  </header>
+  
+
+
+<main class="sobreServicosContainer">
+
+  <div class="servicoCard" id="banho">
+    <img src="img/banho.png" alt="Banho">
+    <h2>Banho</h2>
+    <p>Banho com produtos hipoalergênicos e secagem especial para cada tipo de pelo.</p>
+    <ul>
+      <li>Pequeno porte: R$ 50,00</li>
+      <li>Médio porte: R$ 70,00</li>
+      <li>Grande porte: R$ 90,00</li>
+    </ul>
+    <a href="agendamento.html?servico=banho"><button class="btn">Agendar</button></a>
+  </div>
+
+  <div class="servicoCard" id="tosa">
+    <img src="img/banho.png" alt="Tosa">
+    <h2>Tosa</h2>
+    <p>Vários tipos de tosa adaptados ao estilo e necessidade do pet.</p>
+    <ul>
+      <li>Tosa higiênica: R$ 40,00</li>
+      <li>Tosa completa: R$ 60,00</li>
+      <li>Tosa na tesoura: R$ 80,00</li>
+    </ul>
+    <a href="agendamento.html?servico=tosa"><button class="btn">Agendar</button></a>
+  </div>
+
+  <div class="servicoCard" id="hidratacao">
+    <img src="img/banho.png" alt="Hidratação">
+    <h2>Hidratação</h2>
+    <p>Tratamento de hidratação profunda para revitalizar os pelos do pet.</p>
+    <ul>
+      <li>Pelo curto: R$ 40,00</li>
+      <li>Pelo longo: R$ 60,00</li>
+    </ul>
+    <a href="agendamento.html?servico=hidratacao"><button class="btn">Agendar</button></a>
+  </div>
+
+  <div class="servicoCard" id="unhas">
+    <img src="img/banho.png" alt="Unhas">
+    <h2>Corte de Unhas</h2>
+    <p>Serviço rápido e seguro para o bem-estar do seu animal.</p>
+    <ul>
+      <li>R$ 20,00</li>
+    </ul>
+    <a href="agendamento.html?servico=unhas"><button class="btn">Agendar</button></a>
+  </div>
+
+  <div class="servicoCard" id="escovacao">
+    <img src="img/banho.png" alt="Escovação">
+    <h2>Escovação</h2>
+    <p>Escovação para remoção de pelos mortos e desembaraço.</p>
+    <ul>
+      <li>Pelo curto: R$ 30,00</li>
+      <li>Pelo longo: R$ 45,00</li>
+    </ul>
+    <a href="agendamento.html?servico=escovacao"><button class="btn">Agendar</button></a>
+  </div>
+
+  <div class="servicoCard" id="consulta">
+    <img src="img/banho.png" alt="Consulta Veterinária">
+    <h2>Consulta Veterinária</h2>
+    <p>Atendimento com médico veterinário especializado.</p>
+    <ul>
+      <li>Consulta geral: R$ 100,00</li>
+      <li>Retorno: R$ 50,00</li>
+    </ul>
+    <a href="agendamento.html?servico=consulta"><button class="btn">Agendar</button></a>
+  </div>
+
+</main>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const hash = window.location.hash.substring(1); // remove o "#"
+  if (hash) {
+    document.querySelectorAll(".servicoCard").forEach(card => {
+      if (card.id !== hash) {
+        card.style.display = "none";
+      }
+    });
+  }
+});
+</script>
+</body>
+</html>

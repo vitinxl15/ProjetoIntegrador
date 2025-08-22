@@ -1,0 +1,1 @@
+Analisar uso do supabase
