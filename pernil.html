@@ -62,10 +62,36 @@
         <button type="submit">Salvar</button>
      </form>
     </div>
-    <div class ="informacoes" style="display: none;" id ="cachorros">
-        <ul id="pernilList"> Seus cachorros: </ul>
+    <div class ="informacoes" style="display: none; background-color: red; flex-direction: row; margin:auto; border: 1px solid #1b1b1b; max-height: 100%;" id ="cachorros">
+        <div class="cadastroCachorro" >
+            <form id="formCachorro">
+                <label for="nomeCachorro">Nome do Cachorro:</label>
+                <input type="text" id="nomeCachorro" name="nomeCachorro" required>
+
+                <label for="raca">Raca:</label>
+                <input type="text" id="raca" name="raca" required>
+
+                <label for="data de nascimento">Idade:</label>
+                <input type="date" id="data de nascimento" name="data de nascimento" required>
+
+                <label for="porte">Porte:</label>
+                <input type="text" id="porte" name="porte" required>
+
+                <label for="sexo">Sexo:</label>
+                <input type="text" id="sexo" name="sexo" required>
+
+                <label for ="temperamento">Temperamento:</label>
+                <input type="text" id="temperamento" name="temperamento" required>
+
+                <button type="submit">Salvar</button>
+            </form>
+           
+        </div>
+        <div class =listaCachorros>
+      <ol id="pernilList"> Seus cachorros: </ol>
     </div>
-    <div class="informacoes"style="display: none;" id = "agenda">
+    </div>
+    <div class="informacoes"style="display: none; background-color: green;" id = "agenda">
      <ul id ="agendas" > Seus agendamentos: </ul>
       <li> TESTE</li>
       <li> TESTE</li>

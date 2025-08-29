@@ -254,6 +254,7 @@ form input, select {
   font-size: 14px;
   width: 100%;
   box-sizing: border-box;
+  margin: auto;
 }
 
 form button {

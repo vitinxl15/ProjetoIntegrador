@@ -1,5 +1,5 @@
 *{
-    color: aliceblue;
+    color: rgb(0, 2, 3);
 }
 .pernilContainer{
     width: 100%;
@@ -33,16 +33,7 @@
   border-radius: 10px;
   border: 1px solid #1b1b1b;
   height: 60%;
-}
-.pernilDireito{
-  height: 100%;
-  background-color: #24dada;
-  width: 50vw;
-}
-.pernilEsquerdo{
-  height: 100%;
-  background-color: #dde668;
-  width: 50vw;
+  
 }
 
 .pernilCategory:hover{
@@ -62,4 +53,35 @@
   border: 1px solid #1b1b1b;
   height: 100%;
 
+}
+.cadastroCachorro{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #24dada;
+  padding: 20px 20px;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #1b1b1b;
+  height: 100%;
+  max-height: 676px;
+}
+.listaCachorros{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #24dada;
+  padding: 20px 20px;
+  overflow-y:scroll;    /* cria barra de rolagem vertical */
+  overflow-x: hidden;  /* evita scroll horizontal */
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #1b1b1b;
+  height: 100%;
+  max-height: 676px;
+}
+ul{
+  list-style: none;
 }

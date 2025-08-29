@@ -20,7 +20,7 @@ pernilCategory.forEach((category) => {
 
 dog.addEventListener("click", () => {
     info.style.display = "none";
-    dogList.style.display = "block";
+    dogList.style.display = "flex";
     agenda.style.display = "none";
 });
 agendamentos.addEventListener("click", () => {
@@ -29,7 +29,7 @@ agendamentos.addEventListener("click", () => {
     agenda.style.display = "block";
 });
 perfil.addEventListener("click", () => {
-    info.style.display = "block";
+    info.style.display = "flex";
     dogList.style.display = "none";
     agenda.style.display = "none";
 });
