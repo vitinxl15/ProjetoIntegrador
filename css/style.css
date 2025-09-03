@@ -362,3 +362,70 @@ form button:hover {
 li{
   z-index: 99;
 }
+/* Tablets (até 992px) */
+@media (max-width: 992px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+    .headerContainer {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    footer {
+        padding: 15px 0;
+        font-size: 0.95em;
+    }
+}
+
+/* Celulares grandes (até 768px) */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+    .headerContainer {
+        padding: 0 10px;
+    }
+    footer {
+        padding: 12px 0;
+        font-size: 0.9em;
+    }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.2em;
+    }
+    .headerContainer {
+        flex-direction: column;
+        padding: 0 5px;
+    }
+    footer {
+        padding: 10px 0;
+        font-size: 0.85em;
+    }
+}
+.container-fluid{
+  background-color: #37e7e7;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  border-radius: 10px;
+  border: 1px solid #1b1b1b;
+  
+}
+.col-md-6{
+  width: 80%;
+  margin: auto;
+}
+.col-md-4{
+  width: 80%;
+  margin: auto;
+}
+.card{
+  margin: 7px;
+  border: 1px solid #1b1b1b;
+  border-radius: 10px;
+  background-color:#bce7f8 ;
+}
