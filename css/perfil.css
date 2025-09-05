@@ -1,4 +1,4 @@
-<<<<<<<< Updated upstream:ProjetoIntegrador/css/pernil.css
+
 *{
     color: aliceblue;
 }
@@ -63,7 +63,7 @@
   border: 1px solid #1b1b1b;
   height: 100%;
 
-========
+}
 *{
     color: rgb(0, 2, 3);
 }
@@ -194,5 +194,5 @@ ul{
   .perfilContent {
     padding: 20px 10px;
   }
->>>>>>>> Stashed changes:css/perfil.css
+
 }
