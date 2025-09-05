@@ -212,53 +212,7 @@ footer {
   font-weight: bold;
   color: #1b1b1b;
 }
-.pernilContainer{
-    width: 100%;
-    
-    text-align: center;
-   margin-top: 0%;
-    margin-bottom: 80px;
-    display: flex;
-    height: 5vh;
-    background-color: brown;
-}
-.pernilCategory{
-  width: 25%;
-  border: 1px solid #1b1b1b;
-  border-bottom: none;
-  border-top: none;
-  text-align: center;
-  margin: auto;
-  
-}
-.pernilContent{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  background-color: #4b2685;
-  padding: 40px 20px;
-  margin-left: 10vw;
-  margin-right: 10vw;
-  margin-bottom: 10vh;
-  text-align: center;
-  border-radius: 10px;
-  border: 1px solid #1b1b1b;
-  height: 60vh;
-}
-.pernilDireito{
-  height: 100%;
-  background-color: #24dada;
-  width: 50vw;
-}
-.pernilEsquerdo{
-  height: 100%;
-  background-color: #dde668;
-  width: 50vw;
-}
 
-.pernilCategory:hover{
-  background-color: rgb(36, 205, 218);
-}
 @media (max-width: 768px) {
   .sobreServicosContainer {
     flex-direction: column;
@@ -300,6 +254,7 @@ form input, select {
   font-size: 14px;
   width: 100%;
   box-sizing: border-box;
+  margin: auto;
 }
 
 form button {
@@ -403,4 +358,98 @@ form button:hover {
   text-align: right;
   padding-right: 20px;
   padding-top: 5px;
+}
+li{
+  z-index: 99;
+}
+/* Tablets (até 992px) */
+@media (max-width: 992px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+    .headerContainer {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    footer {
+        padding: 15px 0;
+        font-size: 0.95em;
+    }
+}
+
+/* Celulares grandes (até 768px) */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+    .headerContainer {
+        padding: 0 10px;
+    }
+    footer {
+        padding: 12px 0;
+        font-size: 0.9em;
+    }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.2em;
+    }
+    .headerContainer {
+        flex-direction: column;
+        padding: 0 5px;
+    }
+    footer {
+        padding: 10px 0;
+        font-size: 0.85em;
+    }
+}
+.container-fluid{
+  background-color: #37e7e7;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  border-radius: 10px;
+  border: 1px solid #1b1b1b;
+  
+}
+.col-md-6{
+  width: 80%;
+  margin: auto;
+}
+.col-md-4{
+  width: 80%;
+  margin: auto;
+}
+
+/* Desktop (padrão) → 3 colunas */
+.catalogo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 40px auto;
+  max-width: 1000px;
+  justify-items: center; /* centraliza os cards */
+}
+
+.card {
+  width: 100%;
+  max-width: 280px;
+  text-align: center;
+}
+
+/* Tablet → 2 colunas */
+@media (max-width: 992px) {
+  .catalogo {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Celular → 1 coluna */
+@media (max-width: 600px) {
+  .catalogo {
+    grid-template-columns: 1fr;
+  }
 }
