@@ -1,4 +1,3 @@
-
 const perfilCategory = document.querySelectorAll(".perfilCategory");
 const lista=document.querySelector("#perfilList");
 const dog = document.querySelector("#infoDog");
@@ -34,3 +33,4 @@ perfil.addEventListener("click", () => {
     dogList.style.display = "none";
     agenda.style.display = "none";
 });
+
