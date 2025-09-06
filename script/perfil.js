@@ -1,14 +1,4 @@
-<<<<<<< Updated upstream:script/pernil.js
-const pernilCategory = document.querySelectorAll(".pernilCategory");
-document.querySelector(".pernilCategory").addEventListener("click", () => {
-    /* adiciona um Li com o texto: "irineu" ao ul */
-    const li = document.createElement("li");
-    li.textContent = "irineu";
-    const ul = document.querySelector(".pernilLista");
-    ul.appendChild(li);
 
-
-=======
 const perfilCategory = document.querySelectorAll(".perfilCategory");
 const lista=document.querySelector("#perfilList");
 const dog = document.querySelector("#infoDog");
@@ -43,7 +33,4 @@ perfil.addEventListener("click", () => {
     info.style.display = "flex";
     dogList.style.display = "none";
     agenda.style.display = "none";
-});
->>>>>>> Stashed changes:script/perfil.js
-
 });
