@@ -424,8 +424,6 @@ li{
   margin: auto;
 }
 
-
-
 /* Desktop (padrão) → 3 colunas */
 .catalogo {
   display: grid;
@@ -434,6 +432,12 @@ li{
   margin: 40px auto;
   max-width: 1000px;
   justify-items: center; /* centraliza os cards */
+}
+
+.card {
+  width: 100%;
+  max-width: 280px;
+  text-align: center;
 }
 
 /* Tablet → 2 colunas */
@@ -448,16 +452,4 @@ li{
   .catalogo {
     grid-template-columns: 1fr;
   }
-
-
-.card{
-  margin: 7px;
-  border: 1px solid #1b1b1b;
-  border-radius: 10px;
-  background-color:#bce7f8 ;
-  width: 100%;
-  max-width: 280px;
-  text-align: center;
-
-}
 }
