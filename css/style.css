@@ -425,6 +425,7 @@ li{
 }
 
 
+
 /* Desktop (padrão) → 3 colunas */
 .catalogo {
   display: grid;
@@ -448,6 +449,7 @@ li{
     grid-template-columns: 1fr;
   }
 
+
 .card{
   margin: 7px;
   border: 1px solid #1b1b1b;
@@ -457,4 +459,5 @@ li{
   max-width: 280px;
   text-align: center;
 
+}
 }
