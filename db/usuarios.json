@@ -1,0 +1,26 @@
+{
+  "usuarios": [
+    {
+      "name": "exemplo1",
+      "email": "exemplo1@gmail.com",
+      "id": "1",
+      "senha": "123",
+      "cargo": "Administrador"
+    },
+    {
+      "name": "exemplo2",
+      "email": "exemplo2@gmail.com",
+      "cargo": "funcionario",
+      "id": "82bc",
+      "senha": "123"
+    },
+    {
+      "name": "exemplo3",
+      "email": "exemplo3@gmail.com",
+      "cargo": "cliente",
+      "id": "df80",
+      "senha": "123"
+    }
+  
+  ]
+}
