@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Rafael3323/ProjetoIntegrador/issues"
   },
-  "homepage": "https://github.com/Rafael3323/ProjetoIntegrador#readme"
+  "homepage": "https://github.com/Rafael3323/ProjetoIntegrador#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4"
+  }
 }

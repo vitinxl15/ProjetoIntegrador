@@ -1,23 +1,100 @@
-const express = require('express');
-const path = require('path');
-const app = express();
-const PORT = 3000;
+// server.js
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+const supabaseUrl = "https://uhhagvmmxtcavngjdaik.supabase.co"
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoaGFndm1teHRjYXZuZ2pkYWlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMzQ5MTQsImV4cCI6MjA3MzgxMDkxNH0.myBAOKrgVRKi82SeGC9r_P1N1-Z9tLtvN2cpk_MCYdQ"  // ⚠️ substitua pela sua anon key
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey)
 
-let agendamentos = [];
+// intercepta o form
+document.querySelector("#formCadastro").addEventListener("submit", async (e) => {
+  e.preventDefault()
 
-app.post('/agendar', (req, res) => {
-  const { nome, pet, data, hora, servico } = req.body;
-  if (!nome || !pet || !data || !hora || !servico) {
-    return res.status(400).json({ mensagem: "Preencha todos os campos." });
+  const nome = document.getElementById("inputName").value
+  const email = document.getElementById("inputEmail").value
+  const senha = document.getElementById("inputSenha").value
+  const csenha = document.getElementById("inputCSenha").value
+  const cpf = document.getElementById("inputCpf").value
+  const idPrivilegio = 1 
+
+  if (senha !== csenha) {
+    alert("As senhas devem ser iguais.")
+    return
   }
-  agendamentos.push({ nome, pet, data, hora, servico });
-  console.log("Agendamento recebido:", { nome, pet, data, hora, servico });
-  res.json({ mensagem: "Agendamento realizado com sucesso!" });
-});
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
+  const result = await cadastrarUsuario(nome, cpf, email, senha, idPrivilegio)
+  if (result) {
+    alert("Cadastro realizado com sucesso!")
+    window.location.href = "login.html"
+  }
+})
+
+// Função de cadastro
+async function cadastrarUsuario(nome, cpf, email, senha, idPrivilegio) {
+  // 1. Cadastrar usuario
+  const { data: usuario, error: erroUsuario } = await supabaseClient
+    .from("usuario")
+    .insert([{ email, senha, id_privilegio_fk: idPrivilegio }])
+    .select("id")
+    .single()
+
+  if (erroUsuario) {
+    console.error("Erro ao cadastrar usuário:", erroUsuario.message)
+    alert("Erro ao cadastrar usuário.")
+    return null
+  }
+
+  // 2. Cadastrar cliente vinculado ao usuário
+  const { data: cliente, error: erroCliente } = await supabaseClient
+    .from("cliente")
+    .insert([{ nome, cpf, id_usuario_fk: usuario.id }])
+    .select()
+    .single()
+
+  if (erroCliente) {
+    console.error("Erro ao cadastrar cliente:", erroCliente.message)
+    alert("Erro ao cadastrar cliente.")
+    return null
+  }
+
+  console.log("Cadastro concluído:", { usuario, cliente })
+  return { usuario, cliente }
+}
+/*-----------------------------------------------------------------------------  
+----------------------------------------------------------------------------- 
+----------------------------------------------------------------------------- 
+----------------------------------------------------------------------------- 
+----------------------------------------------------------------------------- */
+// Fazer login
+async function loginUsuario(email, senha) {
+  const { data, error } = await supabase
+    .from("usuario")
+    .select("id, email, id_privilegio_fk")
+    .eq("email", email)
+    .eq("senha", senha)   // ⚠️ em produção use hash de senha
+    .single()
+
+  if (error) {
+    console.error("Erro no login:", error.message)
+    return null
+  }
+
+  if (!data) {
+    console.log("Usuário não encontrado ou senha inválida")
+    return null
+  }
+
+  console.log("Login realizado:", data)
+  return data
+}
+document.querySelector("#formLogin").addEventListener("submit", async (e) => {
+  e.preventDefault()
+
+  const email = document.getElementById("loginEmail").value
+  const senha = document.getElementById("loginSenha").value
+
+  const result = await loginUsuario(email, senha)
+  if (result) {
+    localStorage.setItem("usuarioLogado", JSON.stringify(result))
+    alert(`Bem-vindo(a), ${result.nome}!`)
+    window.location.href = "index.html"
+  }
+})
