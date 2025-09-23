@@ -1,0 +1,75 @@
+.catalogo {
+  position: relative; /* vira referência pro botão */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  background-color: #bde3ef; /* só exemplo */
+  border-radius: 10px;
+}
+
+/* botão no canto superior direito */
+#btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  padding: 0;
+}
+@media (max-width: 600px) {
+  .catalogo {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+  }
+  #btn {
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+  }
+}
+@media (max-width: 400px) {
+  .catalogo {
+    gap: 5px;
+    padding: 5px;
+  }
+  #btn {
+    top: 2px;
+    right: 2px;
+    width: 25px;
+    height: 25px;
+    font-size: 10px;
+  }
+}
+@media (max-width: 992px) {
+  .catalogo {
+    gap: 10px;
+    padding: 10px;
+  }
+  #btn {
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+  }
+}
+@media (max-width: 344px) {
+  .catalogo {
+    gap: 10px;
+    padding: 30px;
+  }
+  #btn {
+    top: 2px;
+    right: 2px;
+    width: 25px;
+    height: 25px;
+    font-size: 10px;
+  }
+}
