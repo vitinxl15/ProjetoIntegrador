@@ -1,0 +1,1 @@
+/*Arquivo para renderizar de cada página para cada rota/caminho (url)*/
