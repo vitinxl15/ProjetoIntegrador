@@ -1,6 +1,6 @@
 import Navbar from "../components/Navbar";
 
-export default function renderRegisterPage() {
+export default function renderAdmPage() {
     const nav = document.getElementById("nav");
     /*Limpa a parte superior da página onde está o menu*/
     nav.innerHTML = '';
