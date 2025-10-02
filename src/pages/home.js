@@ -9,4 +9,7 @@ export default function renderHomePage() {
     /*appendChild incorpora como elemento "child" (filho) de um elemento "parent" (pai)*/
     nav.appendChild(menu);
 
+
+    /*Footer*/
+
 }
