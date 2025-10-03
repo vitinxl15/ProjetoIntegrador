@@ -2,14 +2,14 @@
   "name": "projetointegrador",
   "version": "1.0.0",
   "description": "Analisar uso do supabase",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node main.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rafael3323/ProjetoIntegrador.git"
+    "url": "https://github.com/Rafael3323/ProjetoIntegrador.git"
   },
   "keywords": [],
   "author": "",
