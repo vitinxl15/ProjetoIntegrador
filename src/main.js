@@ -16,8 +16,8 @@ const routes = {
 
 
 /*Obtém o caminho atual a partir da url*/
-/*Ex.: www.sp.senac.br/cursos-tecnicos
-       www.sp.senac.br
+/*Ex.: https://sp.senac.br#/cursos-tecnicos
+       https://sp.senac.br
        
 */
 function getPath() {

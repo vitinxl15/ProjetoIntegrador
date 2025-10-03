@@ -8,7 +8,7 @@ header.innerHTML = `
         <img src="../public/assets/img/logo.png" class="logoImg" alt="Logo" />
         <h1>Focinho Gelado</h1>
       </div>
-      <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-image: url(img/fundo.png) ; border-radius: 10px;">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-image: url(../public/assets/img/fundo.png) ; border-radius: 10px;">
   <div class="container-fluid">
     <a class="navbar-brand" style="display: none;" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
