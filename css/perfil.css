@@ -25,14 +25,14 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    background-color: #4b2685;
+    background-color: #DFA46A;
     padding: 40px 20px;
     margin-left: 10vw;
     margin-right: 10vw;
     margin-bottom: 10vh;
     text-align: center;
     border-radius: 10px;
-    border: 1px solid #1b1b1b;
+   
     height: 60%;
 }
 
@@ -46,7 +46,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #24dada;
+    background-color: #8A4B22;
     padding: 20px 20px;
     margin-left: 10vw;
     margin-right: 10vw;
@@ -65,7 +65,7 @@
     padding: 20px 20px;
     text-align: center;
     border-radius: 10px;
-    border: 1px solid #1b1b1b;
+   
     max-height: 725px;
 }
 

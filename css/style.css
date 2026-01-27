@@ -9,7 +9,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #c5c3c3;
+  background-color: #DFA46A;
   line-height: 1.6;
   color: #333;
   
@@ -121,7 +121,7 @@ nav a:hover {
 }
 
 footer {
-    background-color: #1e9494;
+    background-color: #DFA46A;
     padding: 20px 0;
     text-align: center;
     color: #fff;
