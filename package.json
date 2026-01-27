@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Rafael3323/ProjetoIntegrador#readme",
   "dependencies": {
-    "@supabase/supabase-js": "^2.57.4"
+    "@supabase/supabase-js": "^2.57.4",
+    "express": "^5.2.1"
   }
 }
