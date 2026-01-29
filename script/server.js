@@ -67,34 +67,42 @@ async function cadastrarUsuario(nome, cpf, email, senha, idPrivilegio) {
 async function loginUsuario(email, senha) {
   const { data, error } = await supabase
     .from("usuario")
-    .select("id, email, id_privilegio_fk")
+    .select("id, nome, email, id_privilegio_fk")
     .eq("email", email)
-    .eq("senha", senha)   // ⚠️ em produção use hash de senha
+    .eq("senha", senha) // ⚠️ em produção use hash
     .single()
 
   if (error) {
     console.error("Erro no login:", error.message)
     return null
   }
-
-  if (!data) {
-    console.log("Usuário não encontrado ou senha inválida")
-    return null
-  }
-
-  console.log("Login realizado:", data)
+  
   return data
 }
-document.querySelector("#formLogin").addEventListener("submit", async (e) => {
-  e.preventDefault()
 
-  const email = document.getElementById("loginEmail").value
-  const senha = document.getElementById("loginSenha").value
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("#formLogin")
 
-  const result = await loginUsuario(email, senha)
-  if (result) {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault()
+
+    const email = document.getElementById("loginEmail").value.trim()
+    const senha = document.getElementById("loginSenha").value.trim()
+
+    if (!email || !senha) {
+      alert("Preencha todos os campos!")
+      return
+    }
+
+    const result = await loginUsuario(email, senha)
+
+    if (!result) {
+      alert("Email ou senha inválidos!")
+      return
+    }
+
     localStorage.setItem("usuarioLogado", JSON.stringify(result))
     alert(`Bem-vindo(a), ${result.nome}!`)
     window.location.href = "index.html"
-  }
+  })
 })

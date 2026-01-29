@@ -88,6 +88,40 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Email ou senha inválidos.");
       }
     });
+   
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); 
+
+    
+    const cachorro = document.getElementById("cachorro").value.trim();
+    const endereco = document.getElementById("endereco").value.trim();
+    const data = document.getElementById("data").value;
+    const servico = document.getElementById("serviço").value;
+
+   
+    if (!cachorro || !endereco || !data || !servico) {
+      alert("⚠️ Preencha todos os campos!");
+      return;
+    }
+
+   
+    alert(
+      `🐶 Agendamento realizado com sucesso!\n\n` +
+      `Cachorro: ${cachorro}\n` +
+      `Endereço: ${endereco}\n` +
+      `Data: ${data}\n` +
+      `Serviço: ${servico}`
+    );
+
+    
+    form.reset();
+  });
+});
+
+
   }
 
 
