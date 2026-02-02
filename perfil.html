@@ -84,49 +84,37 @@
                 <label for="nomeCachorro">Nome do Cachorro:</label>
                 <input type="text" id="nomeCachorro" name="nomeCachorro" required>
 
-                <label for="raca">Raca:</label>
+                <label for="especie">Espécie:</label>
+                <input type="text" id="especie" name="especie" placeholder="Ex: Cão, Gato" required>
+
+                <label for="raca">Raça:</label>
                 <input type="text" id="raca" name="raca" required>
 
-                <label for="data de nascimento">Idade:</label>
-                <input type="date" id="data de nascimento" name="data de nascimento" required>
-
-                <label for="porte">Porte:</label>
-                <input type="text" id="porte" name="porte" required>
+                <label for="idade">Idade (anos):</label>
+                <input type="number" id="idade" name="idade" min="0" required>
 
                 <label for="sexo">Sexo:</label>
-                <input type="text" id="sexo" name="sexo" required>
+                <select id="sexo" name="sexo" required>
+                  <option value="">Selecione</option>
+                  <option value="M">Macho</option>
+                  <option value="F">Fêmea</option>
+                </select>
 
                 <label for ="temperamento">Temperamento:</label>
-                <input type="text" id="temperamento" name="temperamento" required>
+                <input type="text" id="temperamento" name="temperamento" placeholder="Ex: Dócil, Bravo" required>
 
                 <button type="submit">Salvar</button>
             </form>
            
         </div>
-        <div class =listaCachorros>
-      <ol id="perfilList"> Seus cachorros: </ol>
+        <div class="listaCachorros">
+          <p><strong>Seus pets:</strong></p>
+          <div id="listaAnimais"></div>
+        </div>
     </div>
-    </div>
-    <div class="informacoes"style="display: none; background-color: green;" id = "agenda">
-     <ul id ="agendas" > Seus agendamentos: </ul>
-      <li> TESTE</li>
-      <li> TESTE</li>
-      <li> TESTE</li>
-      <li> TESTE</li>
-      <li> TESTE</li>
-      <li> TESTE</li>
-       <li> TESTE</li>
-      <li> TESTE</li>
-      <li> TESTE</li>
-      <li> TESTE</li>
-      <li> TESTE</li>
-      <li> TESTE</li>
-       <li> TESTE</li>
-      <li> TESTE</li>
-      <li> TESTE</li>
-      <li> TESTE</li>
-      <li> TESTE</li>
-      <li> TESTE</li>
+    <div class="informacoes"style="display: none; background-color: green;" id="agenda">
+      <p><strong>Seus agendamentos:</strong></p>
+      <div id="listaAgendamentos"></div>
     </div>
      
  </div>
@@ -139,8 +127,10 @@
     <p>&copy; Focinho Gelado - 2025</p>
   </footer>
 
-  <script src="script/app.js"></script>
-  <script src="script/perfil.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="script/agendamento.js"></script>
+  <script src="script/perfil-integrado.js"></script>
+  <script src="script/perfil-navegacao.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   
 

@@ -15,6 +15,75 @@ body {
   
 }
 
+/* Modal */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 20px;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+}
+
+#modalTitulo {
+    color: #24dada;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+#modalDescricao {
+    margin-bottom: 10px;
+}
+
+#modalPreco,
+#modalDuracao {
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+#btnAgendar {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(to right, #24dada, #85d1d1);
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#btnAgendar:hover {
+    background: linear-gradient(to right, #1bb8b8, #6dbdbd);
+}
+
 /* Cabeçalho */
 header {
     background: linear-gradient(to right, #24dada, #85d1d1, #cde5eb);
