@@ -1,36 +1,35 @@
+function fazerLogout() {
+  localStorage.removeItem("usuarioLogado")
+  window.location.href = "index.html"
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-  const saudacaoDiv = document.getElementById("saudacaoUsuario");
-  const btnCadastro = document.getElementById("btnCadastro");
-  const btnLogin = document.getElementById("btnLogin");
-  const btnSair = document.getElementById("btnSair");
+  const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"))
+  const saudacaoDiv = document.getElementById("saudacaoUsuario")
+  
+  const linkCadastro = document.getElementById("linkCadastro")
+  const linkLogin = document.getElementById("linkLogin")
+  const linkPerfil = document.getElementById("linkPerfil")
+  const linkSair = document.getElementById("linkSair")
 
   if (usuarioLogado) {
-      // Mostra saudação
-      saudacaoDiv.textContent = `Olá, ${usuarioLogado.nome}! Seja bem-vindo(a) ao Focinho Gelado!`;
+    if (saudacaoDiv) {
+      saudacaoDiv.textContent = `Olá, ${usuarioLogado.nome}!`
+    }
 
-      // Esconde botões de cadastro e login
-      btnCadastro.style.display = "none";
-      btnLogin.style.display = "none";
-
-      // Mostra botão sair
-      btnSair.style.display = "inline-block";
-
-      // Logout
-      btnSair.addEventListener("click", (e) => {
-          e.preventDefault();
-          localStorage.removeItem("usuarioLogado");
-          window.location.reload();
-      });
+    if (linkCadastro) linkCadastro.style.display = "none"
+    if (linkLogin) linkLogin.style.display = "none"
+    if (linkPerfil) linkPerfil.style.display = "block"
+    if (linkSair) linkSair.style.display = "block"
   } else {
-      // Não está logado → mostra cadastro e login, esconde sair
-      btnCadastro.style.display = "inline-block";
-      btnLogin.style.display = "inline-block";
-      btnSair.style.display = "none";
+    if (linkCadastro) linkCadastro.style.display = "block"
+    if (linkLogin) linkLogin.style.display = "block"
+    if (linkPerfil) linkPerfil.style.display = "none"
+    if (linkSair) linkSair.style.display = "none"
   }
 });
-// === CONTINUAÇÃO (carrossel ou outros scripts existentes) ===
 
+<<<<<<< HEAD
 // === LÓGICA DE LOGIN E CADASTRO ===
 document.addEventListener("DOMContentLoaded", () => {
   const cadastroForm = document.getElementById("formCadastro");
@@ -133,3 +132,5 @@ document.addEventListener("DOMContentLoaded", function () {
     saudacaoDiv.textContent = `Olá, ${usuarioLogado.nome}! Seja bem-vindo(a)!`;
   }
 });
+=======
+>>>>>>> cd521a5 (Correções: fluxo de serviços, SQL, frontend e integração Supabase.)

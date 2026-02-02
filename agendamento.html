@@ -41,39 +41,32 @@
         </div>
     </header>
     
-    <div class =formContainer>
+    <div class="formContainer">
         <div class="agd">
-            <h2>Agendamento</h2>
-            <form>
-                <label for="cachorro">Nome do Cachorro:</label>
-                <input type="text" id="cachorro" name="cachorro" required>
-                <label for="endereco">Endereço:</label>
-                <input type="text" id="endereco" name="endereco" required>
-                <label for="data">Data:</label>
-                <input type="date" id="data" name="data" required>
-                <label for="serviço">Serviço:</label>
-
-                <select id="serviço" name="serviço" required>
-                    <option value="">Selecione um serviço</option>
-                    <option value="Banho">Banho</option>
-                    <option value="Tosa">Tosa</option>
-                    <option value="Hidratação">Hidratação</option>
-                    <option value="Unhas">Unhas</option>
-                    <option value="Escovação">Escovação</option>
-                    <option value="Consulta">Consulta</option>
-                </select>
+            <h2>Agendar Serviço</h2>
+            <div id="infoServico" style="margin-bottom: 20px; padding: 15px; background: #f0f0f0; border-radius: 5px;">
+                <h3 id="nomeServico"></h3>
+                <p id="precoServico"></p>
+            </div>
+            
+            <form id="formAgendamento">
+                <label for="dataHora">Escolha a data e hora:</label>
+                <input type="datetime-local" id="dataHora" name="dataHora" required>
+                <small style="display: block; margin-bottom: 15px; color: #666;">
+                    Horário de funcionamento: 8h às 18h
+                </small>
                 
-                <button type="submit">Agendar</button>
-
+                <button type="submit">Confirmar Agendamento</button>
             </form>
         </div>
     </div>
     
     <footer style="position: relative; bottom: 0; width: 100%; left: 0; justify-content: center; display: flex;">
-        <p>&copy; Focinho Gelado - 2019</p>
+        <p>&copy; Focinho Gelado - 2025</p>
     </footer>
 
-    <script src="script/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="script/agendamento.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   
 </body>

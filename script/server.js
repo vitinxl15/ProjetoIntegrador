@@ -4,8 +4,10 @@ const supabaseUrl = "https://uhhagvmmxtcavngjdaik.supabase.co"
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoaGFndm1teHRjYXZuZ2pkYWlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMzQ5MTQsImV4cCI6MjA3MzgxMDkxNH0.myBAOKrgVRKi82SeGC9r_P1N1-Z9tLtvN2cpk_MCYdQ"  
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey)
 
-// intercepta o form
-document.querySelector("#formCadastro").addEventListener("submit", async (e) => {
+// intercepta o form de cadastro
+const formCadastro = document.querySelector("#formCadastro")
+if (formCadastro) {
+  formCadastro.addEventListener("submit", async (e) => {
   e.preventDefault()
 
   const nome = document.getElementById("inputName").value
@@ -20,12 +22,13 @@ document.querySelector("#formCadastro").addEventListener("submit", async (e) => 
     return
   }
 
-  const result = await cadastrarUsuario(nome, cpf, email, senha, idPrivilegio)
-  if (result) {
-    alert("Cadastro realizado com sucesso!")
-    window.location.href = "login.html"
-  }
-})
+    const result = await cadastrarUsuario(nome, cpf, email, senha, idPrivilegio)
+    if (result) {
+      alert("Cadastro realizado com sucesso!")
+      window.location.href = "login.html"
+    }
+  })
+}
 
 // Função de cadastro
 async function cadastrarUsuario(nome, cpf, email, senha, idPrivilegio) {
@@ -65,11 +68,22 @@ async function cadastrarUsuario(nome, cpf, email, senha, idPrivilegio) {
 ----------------------------------------------------------------------------- */
 // Fazer login
 async function loginUsuario(email, senha) {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("usuario")
+<<<<<<< HEAD
     .select("id, nome, email, id_privilegio_fk")
     .eq("email", email)
     .eq("senha", senha) // ⚠️ em produção use hash
+=======
+    .select(`
+      id,
+      email,
+      id_privilegio_fk,
+      cliente:cliente(id, nome, cpf)
+    `)
+    .eq("email", email)
+    .eq("senha", senha)
+>>>>>>> cd521a5 (Correções: fluxo de serviços, SQL, frontend e integração Supabase.)
     .single()
 
   if (error) {
@@ -80,6 +94,7 @@ async function loginUsuario(email, senha) {
   return data
 }
 
+<<<<<<< HEAD
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("#formLogin")
 
@@ -106,3 +121,36 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "index.html"
   })
 })
+=======
+// intercepta o form de login
+const formLogin = document.querySelector("#formLogin")
+if (formLogin) {
+  formLogin.addEventListener("submit", async (e) => {
+    e.preventDefault()
+
+    const email = document.getElementById("loginEmail").value
+    const senha = document.getElementById("loginSenha").value
+
+    const result = await loginUsuario(email, senha)
+    if (result) {
+      const dadosUsuario = {
+        id: result.id,
+        email: result.email,
+        id_privilegio_fk: result.id_privilegio_fk
+      }
+      
+      if (result.cliente && result.cliente.length > 0) {
+        dadosUsuario.clienteId = result.cliente[0].id
+        dadosUsuario.nome = result.cliente[0].nome
+        dadosUsuario.cpf = result.cliente[0].cpf
+      }
+      
+      localStorage.setItem("usuarioLogado", JSON.stringify(dadosUsuario))
+      alert("Login realizado com sucesso!")
+      window.location.href = "index.html"
+    } else {
+      alert("Email ou senha inválidos!")
+    }
+  })
+}
+>>>>>>> cd521a5 (Correções: fluxo de serviços, SQL, frontend e integração Supabase.)
