@@ -1,117 +1,115 @@
+
+:root {
+    --bege-principal: #DFA46A;
+    --bege-claro: #F2D6B3;
+    --marrom-escuro: #5A2E17;
+    --marrom-medio: #6A3B18;
+    --marrom-destaque: #8A3B18;
+    --marrom-secundario: #8A4B18;
+    --branco: #FFFFFF;
+}
+
+
 * {
-    color: rgb(0, 2, 3);
-}
-
-.perfilContainer {
-    width: 100%;
-    text-align: center;
-    margin-top: 0%;
-    margin-bottom: 80px;
-    display: flex;
-    height: 5vh;
-    background-color: brown;
-}
-
-.perfilCategory {
-    width: 33%;
-    border: 1px solid #1b1b1b;
-    border-bottom: none;
-    border-top: none;
-    text-align: center;
-    margin: auto;
-}
-
-.perfilContent {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    background-color: #DFA46A;
-    padding: 40px 20px;
-    margin-left: 10vw;
-    margin-right: 10vw;
-    margin-bottom: 10vh;
-    text-align: center;
-    border-radius: 10px;
-   
-    height: 60%;
-}
-
-
-.perfilCategory:hover {
-    background-color: rgb(36, 205, 218);
-}
-
-#formPerfil {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #8A4B22;
-    padding: 20px 20px;
-    margin-left: 10vw;
-    margin-right: 10vw;
-    text-align: center;
-    border-radius: 10px;
-    border: 1px solid #1b1b1b;
-    height: 100%;
-}
-
-.cadastroCachorro {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #24dada;
-    padding: 20px 20px;
-    text-align: center;
-    border-radius: 10px;
-   
-    max-height: 725px;
-}
-
-.listaCachorros {
-    display: flex;
-    /* não precisa ser flex aqui */
-    background-color: #24dada;
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #1b1b1b;
-    height: 725px;
-    max-height: 725px;
-    /* define a altura máxima da lista */
-    overflow-y: auto;
-    /* cria scroll só quando precisar */
-    overflow-x: hidden;
-    /* evita barra horizontal */
+    box-sizing: border-box;
+    color: var(--marrom-escuro);
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
 }
 
 ul {
     list-style: none;
 }
 
-.informacoes {
-    max-height: 725px;
-    overflow: hidden;
-    /* evita estourar */
+
+.perfilContainer {
+    width: 100%;
+    display: flex;
+    height: 5vh;
+    background-color: var(--marrom-medio);
+}
+
+.perfilCategory {
+    width: 33.33%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--marrom-escuro);
+    border-right: 1px solid var(--marrom-escuro);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.perfilCategory:hover {
+    background-color: var(--bege-principal);
 }
 
 
-/* Tablets */
+.perfilContent {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background-color: var(--bege-principal);
+    padding: 40px 20px;
+    margin: 10vh 10vw;
+    border-radius: 12px;
+}
+
+
+#formPerfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--bege-claro);
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid var(--marrom-medio);
+    width: 100%;
+}
+
+
+.cadastroCachorro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--bege-claro);
+    padding: 25px;
+    border-radius: 12px;
+    max-height: 725px;
+    width: 100%;
+}
+
+
+.listaCachorros {
+    background-color: var(--branco);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--marrom-medio);
+    height: 725px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+
+.informacoes {
+    max-height: 725px;
+    overflow: hidden;
+}
+
+
+
+
 @media (max-width: 992px) {
     .perfilContent {
         flex-direction: column;
         margin: 20px;
         padding: 20px;
     }
-
-    #formPerfil,
-    .cadastroCachorro,
-    .listaCachorros {
-        max-width: 100%;
-    }
 }
 
-/* Celulares */
+
 @media (max-width: 576px) {
     .perfilContainer {
         flex-direction: column;
@@ -122,6 +120,7 @@ ul {
         width: 100%;
         border-left: none;
         border-right: none;
+        border-bottom: 1px solid var(--marrom-escuro);
     }
 
     .perfilContent {
@@ -133,6 +132,5 @@ ul {
     .cadastroCachorro,
     .listaCachorros {
         padding: 15px;
-        margin: 10px 0;
     }
 }

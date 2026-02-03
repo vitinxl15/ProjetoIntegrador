@@ -1,75 +1,64 @@
 .catalogo {
-  position: relative; /* vira referência pro botão */
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-  background-color: #bde3ef; /* só exemplo */
-  border-radius: 10px;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(12px, 2vw, 24px);
+  padding: clamp(16px, 3vw, 40px);
+  margin: 40px auto;
+
+  background-color: #F2D6B3; 
+  border-radius: 14px;
+  max-width: 1100px;
+
+  box-shadow: 0 10px 24px rgba(90, 46, 23, 0.25);
 }
 
-/* botão no canto superior direito */
+*/
 #btn {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 16px;
+  right: 16px;
+
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+
+  background-color: #8A3B18; 
+
   font-size: 20px;
-  padding: 0;
+  font-weight: bold;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: 
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
-@media (max-width: 600px) {
-  .catalogo {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-  }
+
+#btn:hover {
+  transform: scale(1.08);
+  background-color: #5A2E17;
+  box-shadow: 0 6px 14px rgba(90, 46, 23, 0.4);
+}
+
+
+@media (max-width: 768px) {
   #btn {
-    top: 5px;
-    right: 5px;
-    width: 30px;
-    height: 30px;
-    font-size: 15px;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
   }
 }
+
 @media (max-width: 400px) {
-  .catalogo {
-    gap: 5px;
-    padding: 5px;
-  }
   #btn {
-    top: 2px;
-    right: 2px;
-    width: 25px;
-    height: 25px;
-    font-size: 10px;
-  }
-}
-@media (max-width: 992px) {
-  .catalogo {
-    gap: 10px;
-    padding: 10px;
-  }
-  #btn {
-    top: 5px;
-    right: 5px;
-    width: 30px;
-    height: 30px;
-    font-size: 15px;
-  }
-}
-@media (max-width: 344px) {
-  .catalogo {
-    gap: 10px;
-    padding: 30px;
-  }
-  #btn {
-    top: 2px;
-    right: 2px;
-    width: 25px;
-    height: 25px;
-    font-size: 10px;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
   }
 }

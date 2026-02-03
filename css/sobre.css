@@ -1,0 +1,154 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Cores */
+:root {
+  --cor-primaria: #DFA46A;
+  --cor-secundaria: #F2D6B3;
+  --cor-escura: #6A3B18;
+  --cor-aviso: #8A4B22;
+  --cor-acento: #5A2E17;
+  --cor-fundo: #FFFFFF;
+}
+
+/* BODY */
+body {
+  background-color: var(--cor-fundo);
+  color: var(--cor-escura);
+  line-height: 1.6;
+}
+
+/* HEADER */
+header {
+  background-color: var(--cor-primaria);
+  padding: 15px 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logoImg {
+  width: 50px;
+  margin-right: 10px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: var(--cor-fundo);
+  font-weight: 600;
+  padding: 5px 10px;
+  transition: background 0.3s, color 0.3s;
+  border-radius: 5px;
+}
+
+nav ul li a:hover {
+  background-color: var(--cor-secundaria);
+  color: var(--cor-escura);
+}
+
+.saudacao {
+  margin-top: 10px;
+  color: var(--cor-acento);
+  font-weight: bold;
+}
+
+/* MAIN / SERVIÇOS */
+.sobreServicosContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.servicoCard {
+  background-color: var(--cor-secundaria);
+  border: 2px solid var(--cor-primaria);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.servicoCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+.servicoCard img {
+  width: 80px;
+  margin-bottom: 15px;
+}
+
+.servicoCard h2 {
+  color: var(--cor-escura);
+  margin-bottom: 10px;
+}
+
+.servicoCard p {
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+.servicoCard ul {
+  list-style: none;
+  margin-bottom: 15px;
+}
+
+.servicoCard ul li {
+  padding: 3px 0;
+  color: var(--cor-acento);
+}
+
+/* BOTÕES */
+.btn {
+  background-color: var(--cor-primaria);
+  color: var(--cor-fundo);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.btn:hover {
+  background-color: var(--cor-aviso);
+  color: var(--cor-fundo);
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .headerContainer {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  nav ul {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
