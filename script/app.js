@@ -121,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-
   }
 
 
@@ -133,3 +132,71 @@ document.addEventListener("DOMContentLoaded", function () {
     saudacaoDiv.textContent = `Olá, ${usuarioLogado.nome}! Seja bem-vindo(a)!`;
   }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const btnMais = document.getElementById("btn");
+  const formProduto = document.getElementById("formProduto");
+  const catalogo = document.getElementById("catalogo");
+
+  const nomeInput = document.getElementById("nomeProduto");
+  const linkInput = document.getElementById("linkProduto");
+  const btnSalvar = document.getElementById("salvarProduto");
+
+  const imagemPadrao = "img/banho.png";
+
+  
+  btnMais.addEventListener("click", () => {
+    formProduto.style.display =
+      formProduto.style.display === "none" ? "block" : "none";
+  });
+
+  
+  btnSalvar.addEventListener("click", () => {
+    const nome = nomeInput.value.trim();
+    const link = linkInput.value.trim();
+
+    if (!nome || !link) {
+      alert("Preencha todos os campos!");
+      return;
+    }
+
+    const card = document.createElement("div");
+    card.classList.add("card");
+
+    card.innerHTML = `
+      <img src="${imagemPadrao}" alt="${nome}">
+      <div class="card-body">
+        <h5 class="card-title">${nome}</h5>
+        <a href="sobre.html#${link}">
+          <button class="btn">Sobre</button>
+        </a>
+      </div>
+    `;
+
+    catalogo.appendChild(card);
+
+    nomeInput.value = "";
+    linkInput.value = "";
+    formProduto.style.display = "none";
+  });
+});
+// esconder  a barra da data
+  const dataInput = document.getElementById('data');
+
+  dataInput.addEventListener('input', function () {
+    let valor = dataInput.value.replace(/\D/g, '');
+
+    if (valor.length > 2) {
+      valor = valor.replace(/(\d{2})(\d)/, '$1/$2');
+    }
+    if (valor.length > 5) {
+      valor = valor.replace(/(\d{2})\/(\d{2})(\d)/, '$1/$2/$3');
+    }
+
+    dataInput.value = valor;
+  });
+
+
+
+
+

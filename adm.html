@@ -45,11 +45,20 @@
     <div id="saudacaoUsuario" class="saudacao"></div>
   </header>
   
-  <div class="bannerContainer">
-    <img src="img/banner.png" class="bannerImg" alt="Banner" />
-  </div>
-<div class="catalogo">
+ 
+<div class="catalogo" id="catalogo">
   <button type="button" class="btn btn-outline-primary" id = "btn">+</button>
+  <div id="formProduto" style="display: none; margin: 20px 0;">
+  <div class="card p-3">
+    <h5>Adicionar novo serviço</h5>
+
+    <input type="text" id="nomeProduto" class="form-control mb-2" placeholder="Nome do produto">
+    <input type="text" id="linkProduto" class="form-control mb-2" placeholder="ID do sobre (ex: banho)">
+
+    <button class="btn btn-success" id="salvarProduto">Adicionar</button>
+  </div>
+</div>
+
   <div class="card">
     <img src="img/banho.png" alt="Banho">
     <div class="card-body">
