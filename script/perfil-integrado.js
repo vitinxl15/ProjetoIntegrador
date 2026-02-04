@@ -8,7 +8,7 @@ if (formCachorro) {
 
     const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"))
     if (!usuarioLogado) {
-      alert("Você precisa estar logado!")
+      await showPopup("Você precisa estar logado!", "Atenção")
       return
     }
 
@@ -25,7 +25,7 @@ if (formCachorro) {
     }
     
     if (!cliente) {
-      alert("Erro ao buscar dados do cliente")
+      await showPopup("Erro ao buscar dados do cliente", "Erro")
       return
     }
 
@@ -47,7 +47,7 @@ if (formCachorro) {
     )
 
     if (resultado) {
-      alert("Animal cadastrado com sucesso!")
+      await showPopup("Animal cadastrado com sucesso!", "Sucesso")
       formCachorro.reset()
       
       // Recarregar lista de animais

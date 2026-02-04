@@ -18,13 +18,13 @@ if (formCadastro) {
   const idPrivilegio = 1 
 
   if (senha !== csenha) {
-    alert("As senhas devem ser iguais.")
+    await showPopup("As senhas devem ser iguais.", "Erro")
     return
   }
 
     const result = await cadastrarUsuario(nome, cpf, email, senha, idPrivilegio)
     if (result) {
-      alert("Cadastro realizado com sucesso!")
+      await showPopup("Cadastro realizado com sucesso!", "Sucesso")
       window.location.href = "login.html"
     }
   })
@@ -41,7 +41,7 @@ async function cadastrarUsuario(nome, cpf, email, senha, idPrivilegio) {
 
   if (erroUsuario) {
     console.error("Erro ao cadastrar usuário:", erroUsuario.message)
-    alert("Erro ao cadastrar usuário.")
+    await showPopup("Erro ao cadastrar usuário.", "Erro")
     return null
   }
 
@@ -54,7 +54,7 @@ async function cadastrarUsuario(nome, cpf, email, senha, idPrivilegio) {
 
   if (erroCliente) {
     console.error("Erro ao cadastrar cliente:", erroCliente.message)
-    alert("Erro ao cadastrar cliente.")
+    await showPopup("Erro ao cadastrar cliente.", "Erro")
     return null
   }
 
@@ -68,13 +68,9 @@ async function cadastrarUsuario(nome, cpf, email, senha, idPrivilegio) {
 ----------------------------------------------------------------------------- */
 // Fazer login
 async function loginUsuario(email, senha) {
+
   const { data, error } = await supabaseClient
     .from("usuario")
-<<<<<<< HEAD
-    .select("id, nome, email, id_privilegio_fk")
-    .eq("email", email)
-    .eq("senha", senha) // ⚠️ em produção use hash
-=======
     .select(`
       id,
       email,
@@ -83,74 +79,38 @@ async function loginUsuario(email, senha) {
     `)
     .eq("email", email)
     .eq("senha", senha)
->>>>>>> cd521a5 (Correções: fluxo de serviços, SQL, frontend e integração Supabase.)
     .single()
 
   if (error) {
     console.error("Erro no login:", error.message)
     return null
   }
-  
   return data
 }
 
-<<<<<<< HEAD
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("#formLogin")
-
+  if (!form) return;
   form.addEventListener("submit", async (e) => {
     e.preventDefault()
-
     const email = document.getElementById("loginEmail").value.trim()
     const senha = document.getElementById("loginSenha").value.trim()
-
     if (!email || !senha) {
-      alert("Preencha todos os campos!")
+      await showPopup("Preencha todos os campos!", "Atenção")
       return
     }
-
     const result = await loginUsuario(email, senha)
-
     if (!result) {
-      alert("Email ou senha inválidos!")
+      await showPopup("Email ou senha inválidos!", "Erro")
       return
     }
-
-    localStorage.setItem("usuarioLogado", JSON.stringify(result))
-    alert(`Bem-vindo(a), ${result.nome}!`)
+    // Salva apenas email e id no localStorage
+    localStorage.setItem("usuarioLogado", JSON.stringify({
+      id: result.id,
+      email: result.email
+    }))
+    await showPopup(`Bem-vindo(a), ${result.email}!`, "Sucesso")
     window.location.href = "index.html"
   })
 })
-=======
-// intercepta o form de login
-const formLogin = document.querySelector("#formLogin")
-if (formLogin) {
-  formLogin.addEventListener("submit", async (e) => {
-    e.preventDefault()
 
-    const email = document.getElementById("loginEmail").value
-    const senha = document.getElementById("loginSenha").value
-
-    const result = await loginUsuario(email, senha)
-    if (result) {
-      const dadosUsuario = {
-        id: result.id,
-        email: result.email,
-        id_privilegio_fk: result.id_privilegio_fk
-      }
-      
-      if (result.cliente && result.cliente.length > 0) {
-        dadosUsuario.clienteId = result.cliente[0].id
-        dadosUsuario.nome = result.cliente[0].nome
-        dadosUsuario.cpf = result.cliente[0].cpf
-      }
-      
-      localStorage.setItem("usuarioLogado", JSON.stringify(dadosUsuario))
-      alert("Login realizado com sucesso!")
-      window.location.href = "index.html"
-    } else {
-      alert("Email ou senha inválidos!")
-    }
-  })
-}
->>>>>>> cd521a5 (Correções: fluxo de serviços, SQL, frontend e integração Supabase.)

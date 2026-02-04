@@ -2,10 +2,11 @@
   "name": "projetointegrador",
   "version": "1.0.0",
   "description": "Analisar uso do supabase",
-  "main": "server.js",
+  "main": "servidor.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node script/server.js"
+    "start": "node servidor.js",
+    "dev": "node servidor.js"
   },
   "repository": {
     "type": "git",

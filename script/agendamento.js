@@ -14,6 +14,7 @@ async function buscarCliente(idUsuario) {
 
   if (error) {
     console.error("Erro ao buscar cliente:", error.message)
+    if (typeof showPopup === 'function') await showPopup('Erro ao carregar seus dados. Tente novamente.', 'Erro')
     return null
   }
   return data
@@ -38,6 +39,7 @@ async function buscarAnimaisCliente(idCliente) {
 
   if (error) {
     console.error("Erro ao buscar animais:", error.message)
+    if (typeof showPopup === 'function') await showPopup('Erro ao carregar seus pets. Tente novamente.', 'Erro')
     return []
   }
   return data
@@ -48,6 +50,7 @@ async function buscarAnimaisCliente(idCliente) {
 async function listarServicos() {
   if (typeof supabaseClient === 'undefined') {
     console.error("Supabase não carregado!")
+    if (typeof showPopup === 'function') await showPopup('Erro interno: serviço indisponível.', 'Erro')
     return []
   }
   const { data, error } = await supabaseClient
@@ -55,8 +58,9 @@ async function listarServicos() {
     .select("id, nome, descricao, preco, duracao")
 
   if (error) {
-    console.error("Erro ao listar serviços:", error.message)
-    return []
+     console.error("Erro ao listar serviços:", error.message)
+     if (typeof showPopup === 'function') await showPopup('Erro ao listar serviços. Tente novamente mais tarde.', 'Erro')
+     return []
   }
   return data
 }
@@ -65,6 +69,16 @@ window.listarServicos = listarServicos;
 
 // Criar um novo agendamento
 async function criarAgendamento(idCliente, dataHora, servicosSelecionados) {
+  // Verificar conflitos globais antes de criar
+  // calcular duração total em minutos dos serviços selecionados
+  const duracaoTotalMin = servicosSelecionados.reduce((soma, s) => {
+    return soma + (s.duracaoMinutos || 60)
+  }, 0)
+  const conflito = await verificarConflitoGlobal(dataHora, duracaoTotalMin)
+  if (conflito) {
+    if (typeof showPopup === 'function') await showPopup('Já existe um agendamento próximo a este horário. Escolha outro horário.', 'Atenção')
+    return null
+  }
   // Calcular total
   const total = servicosSelecionados.reduce((soma, servico) => {
     return soma + parseFloat(servico.preco)
@@ -84,7 +98,7 @@ async function criarAgendamento(idCliente, dataHora, servicosSelecionados) {
 
   if (erroAgendamento) {
     console.error("Erro ao criar agendamento:", erroAgendamento.message)
-    alert("Erro ao criar agendamento.")
+    await showPopup("Erro ao criar agendamento.", "Erro")
     return null
   }
 
@@ -100,12 +114,85 @@ async function criarAgendamento(idCliente, dataHora, servicosSelecionados) {
 
   if (erroItens) {
     console.error("Erro ao adicionar itens:", erroItens.message)
-    alert("Erro ao adicionar serviços ao agendamento.")
+    await showPopup("Erro ao adicionar serviços ao agendamento.", "Erro")
     return null
   }
 
   console.log("Agendamento criado com sucesso:", agendamento)
   return agendamento
+}
+// Converte formatos comuns de duração para minutos
+function parseDurationToMinutes(d) {
+  if (!d) return 60
+  if (typeof d === 'number') return d
+  if (typeof d === 'string') {
+    const trimmed = d.trim()
+    const hMatch = trimmed.match(/(\d+)\s*h/i)
+    if (hMatch) return parseInt(hMatch[1], 10) * 60
+    const parts = trimmed.split(':')
+    if (parts.length === 3) {
+      const hh = parseInt(parts[0], 10) || 0
+      const mm = parseInt(parts[1], 10) || 0
+      return hh * 60 + mm
+    }
+    if (parts.length === 2) {
+      const hh = parseInt(parts[0], 10) || 0
+      const mm = parseInt(parts[1], 10) || 0
+      return hh * 60 + mm
+    }
+    const num = parseFloat(trimmed)
+    if (!isNaN(num)) return Math.round(num)
+  }
+  return 60
+}
+
+// Verifica se existe algum agendamento (de qualquer cliente) que se sobreponha
+// ao intervalo [dataHoraInput, dataHoraInput + duracaoMinutos]
+async function verificarConflitoGlobal(dataHoraInput, duracaoMinutos = 60) {
+  try {
+    const inicioNovo = new Date(dataHoraInput)
+    const fimNovo = new Date(inicioNovo.getTime() + duracaoMinutos * 60 * 1000)
+
+    const { data, error } = await supabaseClient
+      .from('agendamento')
+      .select(`id, data_hora, agendamento_item ( servico:id_servico_fk ( duracao ) )`)
+
+    if (error) {
+      console.error('Erro ao verificar conflitos globais:', error.message)
+      return false
+    }
+
+    if (!data || data.length === 0) return false
+
+    for (let ag of data) {
+      const inicioExistente = new Date(ag.data_hora)
+      // somar durações dos serviços do agendamento existente
+      let durExistMin = 0
+      if (ag.agendamento_item && Array.isArray(ag.agendamento_item)) {
+        for (let item of ag.agendamento_item) {
+          const serv = item.servico
+          if (serv) {
+            durExistMin += parseDurationToMinutes(serv.duracao)
+          } else {
+            durExistMin += 60
+          }
+        }
+      } else {
+        durExistMin = 60
+      }
+      const fimExistente = new Date(inicioExistente.getTime() + durExistMin * 60 * 1000)
+
+      // verificar sobreposição de intervalos
+      if (inicioNovo < fimExistente && fimNovo > inicioExistente) {
+        return true
+      }
+    }
+
+    return false
+  } catch (err) {
+    console.error('Erro ao verificar conflito global:', err.message)
+    return false
+  }
 }
 
 // Buscar agendamentos do cliente
@@ -152,7 +239,7 @@ async function cadastrarAnimal(nome, especie, raca, sexo, idade, temperamento, i
 
   if (erroAnimal) {
     console.error("Erro ao cadastrar animal:", erroAnimal.message)
-    alert("Erro ao cadastrar animal.")
+    await showPopup("Erro ao cadastrar animal.", "Erro")
     return null
   }
 
@@ -168,7 +255,7 @@ async function cadastrarAnimal(nome, especie, raca, sexo, idade, temperamento, i
 
   if (erroBando) {
     console.error("Erro ao vincular animal:", erroBando.message)
-    alert("Erro ao vincular animal ao cliente.")
+    await showPopup("Erro ao vincular animal ao cliente.", "Erro")
     return null
   }
 
@@ -187,7 +274,7 @@ async function atualizarStatusAgendamento(idAgendamento, novoStatus) {
 
   if (error) {
     console.error("Erro ao atualizar status:", error.message)
-    alert("Erro ao atualizar status do agendamento.")
+    await showPopup("Erro ao atualizar status do agendamento.", "Erro")
     return null
   }
 
@@ -206,7 +293,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"))
   
   if (!usuarioLogado) {
-    alert("Você precisa fazer login primeiro!")
+    await showPopup("Você precisa fazer login primeiro!", "Atenção")
     window.location.href = "login.html"
     return
   }
@@ -215,7 +302,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const clienteParaAgendar = JSON.parse(localStorage.getItem("clienteParaAgendar"))
 
   if (!servicoParaAgendar || !clienteParaAgendar) {
-    alert("Selecione um serviço primeiro!")
+    await showPopup("Selecione um serviço primeiro!", "Atenção")
     window.location.href = "index.html"
     return
   }
@@ -230,33 +317,32 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const dataHoraInput = document.getElementById("dataHora").value
       const dataHora = new Date(dataHoraInput)
-      
-      const hora = dataHora.getHours()
-      if (hora < 8 || hora >= 18) {
-        alert("Horário deve estar entre 8h e 18h!")
+
+      // duração do serviço em minutos (fallback 60)
+      const duracaoMin = parseDurationToMinutos(servicoParaAgendar.duracao)
+
+      const fimAgendamento = new Date(dataHora.getTime() + duracaoMin * 60 * 1000)
+      const inicioDia = new Date(dataHora)
+      inicioDia.setHours(8, 0, 0, 0)
+      const fimDia = new Date(dataHora)
+      fimDia.setHours(18, 0, 0, 0)
+
+      if (dataHora < inicioDia || fimAgendamento > fimDia) {
+        await showPopup("Agendamento deve começar e terminar entre 08:00 e 18:00.", "Atenção")
         return
       }
 
-      const agendamentosExistentes = await supabaseClient
-        .from("agendamento")
-        .select("data_hora")
-        .eq("id_cliente_fk", clienteParaAgendar.id)
-
-      if (agendamentosExistentes.data) {
-        for (let ag of agendamentosExistentes.data) {
-          const dataExistente = new Date(ag.data_hora)
-          const diferencaHoras = Math.abs(dataHora - dataExistente) / 36e5
-          
-          if (diferencaHoras < 1) {
-            alert("Já existe um agendamento próximo a este horário. Escolha um horário com pelo menos 1 hora de diferença.")
-            return
-          }
-        }
+      // verificar conflito global (sobreposição com qualquer agendamento existente)
+      const conflito = await verificarConflitoGlobal(dataHoraInput, duracaoMin)
+      if (conflito) {
+        await showPopup("Já existe um agendamento próximo a este horário. Escolha outro horário.", "Atenção")
+        return
       }
 
       const servicosSelecionados = [{
         id: servicoParaAgendar.id,
-        preco: servicoParaAgendar.preco
+        preco: servicoParaAgendar.preco,
+        duracaoMinutos: duracaoMin
       }]
 
       const resultado = await criarAgendamento(
@@ -268,7 +354,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (resultado) {
         localStorage.removeItem("servicoParaAgendar")
         localStorage.removeItem("clienteParaAgendar")
-        alert("Agendamento realizado com sucesso!")
+        await showPopup("Agendamento realizado com sucesso!", "Sucesso")
         window.location.href = "perfil.html"
       }
     })
