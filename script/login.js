@@ -50,19 +50,30 @@ async function fazerLogin(event) {
     }
     
     const usuarioLogado = usuario[0];
-    console.log('Login realizado com sucesso:', usuarioLogado);
+    console.log('✅ Usuário encontrado:', usuarioLogado);
     
     // Buscar dados do cliente se existir
-    const { data: cliente } = await supabase
+    console.log('🔍 Buscando dados do cliente para id_usuario_fk:', usuarioLogado.id);
+    const { data: cliente, error: erroCliente } = await supabase
       .from('cliente')
       .select('*')
       .eq('id_usuario_fk', usuarioLogado.id);
     
+    if (erroCliente) {
+      console.error('❌ Erro ao buscar cliente:', erroCliente);
+    }
+    
+    console.log('👤 Dados do cliente retornados:', cliente);
+    
     if (cliente && cliente.length > 0) {
       usuarioLogado.cliente = cliente[0];
+      console.log('✅ Cliente adicionado ao usuarioLogado:', usuarioLogado.cliente);
+    } else {
+      console.warn('⚠️ Nenhum cliente encontrado para este usuário');
     }
     
     // Salvar usuário no localStorage
+    console.log('💾 Salvando no localStorage:', usuarioLogado);
     localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
     
     mostrarPopup('Login realizado com sucesso!', 'success');

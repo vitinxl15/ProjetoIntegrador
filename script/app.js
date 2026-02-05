@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const linkCadastro = document.getElementById("linkCadastro")
   const linkLogin = document.getElementById("linkLogin")
+  const linkAgendamentos = document.getElementById("linkAgendamentos")
   const linkPerfil = document.getElementById("linkPerfil")
   const linkSair = document.getElementById("linkSair")
 
@@ -26,11 +27,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (linkCadastro) linkCadastro.style.display = "none"
     if (linkLogin) linkLogin.style.display = "none"
+    if (linkAgendamentos) linkAgendamentos.style.display = "block"
     if (linkPerfil) linkPerfil.style.display = "none"
     if (linkSair) linkSair.style.display = "block"
   } else {
     if (linkCadastro) linkCadastro.style.display = "block"
     if (linkLogin) linkLogin.style.display = "block"
+    if (linkAgendamentos) linkAgendamentos.style.display = "none"
     if (linkPerfil) linkPerfil.style.display = "none"
     if (linkSair) linkSair.style.display = "none"
   }

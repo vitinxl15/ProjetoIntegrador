@@ -39,31 +39,31 @@ document.addEventListener('DOMContentLoaded', async function() {
 // Função para carregar todos os agendamentos
 async function carregarTodosAgendamentos() {
   try {
-    console.log('Carregando todos os agendamentos...');
+    console.log('🔍 Carregando todos os agendamentos...');
     
     const { data, error } = await supabase
       .from('agendamento')
       .select(`
         *,
-        cliente:cliente_id (
+        cliente:id_cliente_fk (
+          id,
           nome,
-          sobrenome,
-          telefone,
-          email
+          cpf
         ),
         agendamento_item (
-          servico_id,
-          servico:servico_id (
+          id,
+          id_servico_fk,
+          servico:id_servico_fk (
+            id,
             nome,
-            descricao,
-            preco_base
+            preco
           )
         )
       `)
       .order('data_hora', { ascending: false });
 
     if (error) {
-      console.error('Erro ao carregar agendamentos:', error);
+      console.error('❌ Erro ao carregar agendamentos:', error);
       mostrarPopup('Erro ao carregar agendamentos: ' + error.message, 'error');
       return;
     }
@@ -71,11 +71,12 @@ async function carregarTodosAgendamentos() {
     todosAgendamentos = data || [];
     agendamentosFiltrados = [...todosAgendamentos];
     
-    console.log('Agendamentos carregados:', todosAgendamentos);
+    console.log(`✅ ${todosAgendamentos.length} agendamentos carregados`);
+    console.log('📊 Dados:', todosAgendamentos);
     renderizarAgendamentos(agendamentosFiltrados);
     
   } catch (error) {
-    console.error('Erro ao carregar agendamentos:', error);
+    console.error('❌ Erro ao carregar agendamentos:', error);
     mostrarPopup('Erro ao carregar agendamentos', 'error');
   }
 }
@@ -87,7 +88,10 @@ function renderizarAgendamentos(agendamentos) {
   if (!agendamentos || agendamentos.length === 0) {
     listaDiv.innerHTML = `
       <div class="col-12 text-center p-5">
-        <p class="text-muted">Nenhum agendamento encontrado.</p>
+        <div class="alert alert-info">
+          <h5>Nenhum agendamento encontrado</h5>
+          <p>Não há agendamentos cadastrados no sistema.</p>
+        </div>
       </div>
     `;
     return;
@@ -97,39 +101,34 @@ function renderizarAgendamentos(agendamentos) {
   
   agendamentos.forEach(agendamento => {
     const cliente = agendamento.cliente || {};
-    const nomeCliente = `${cliente.nome || 'N/A'} ${cliente.sobrenome || ''}`.trim();
-    const telefoneCliente = cliente.telefone || 'N/A';
-    const emailCliente = cliente.email || 'N/A';
+    const nomeCliente = cliente.nome || 'Cliente não identificado';
+    const cpfCliente = cliente.cpf || 'N/A';
     
     const dataHora = new Date(agendamento.data_hora);
     const dataFormatada = dataHora.toLocaleDateString('pt-BR');
     const horaFormatada = dataHora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     
-    const servicos = agendamento.agendamento_item || [];
-    const servicosNomes = servicos.map(item => item.servico?.nome || 'Serviço desconhecido').join(', ');
-    
     const statusClass = getStatusClass(agendamento.status);
     
     html += `
-      <div class="col-md-6 col-lg-4 mb-3">
-        <div class="card h-100">
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <div class="card h-100 shadow-sm">
           <div class="card-header ${statusClass}">
-            <strong>Agendamento #${agendamento.id}</strong>
+            <strong>#${agendamento.id}</strong>
             <span class="badge bg-light text-dark float-end">${agendamento.status}</span>
           </div>
           <div class="card-body">
-            <h6 class="card-title"><strong>Cliente:</strong> ${nomeCliente}</h6>
-            <p class="card-text mb-1"><strong>Telefone:</strong> ${telefoneCliente}</p>
-            <p class="card-text mb-1"><strong>Email:</strong> ${emailCliente}</p>
+            <h6 class="card-title mb-3">
+              <i class="bi bi-person-fill"></i> ${nomeCliente}
+            </h6>
+            <p class="card-text mb-1"><strong>📋 CPF:</strong> ${cpfCliente}</p>
             <hr>
-            <p class="card-text mb-1"><strong>Data:</strong> ${dataFormatada}</p>
-            <p class="card-text mb-1"><strong>Hora:</strong> ${horaFormatada}</p>
-            <p class="card-text mb-1"><strong>Porte:</strong> ${agendamento.porte || 'N/A'}</p>
-            <p class="card-text mb-1"><strong>Serviços:</strong> ${servicosNomes || 'N/A'}</p>
-            <p class="card-text mb-1"><strong>Valor:</strong> R$ ${parseFloat(agendamento.valor_total || 0).toFixed(2)}</p>
-            ${agendamento.observacoes ? `<p class="card-text mb-1"><small><strong>Obs:</strong> ${agendamento.observacoes}</small></p>` : ''}
+            <p class="card-text mb-1"><strong>📅 Data:</strong> ${dataFormatada}</p>
+            <p class="card-text mb-1"><strong>🕐 Hora:</strong> ${horaFormatada}</p>
+            <p class="card-text mb-1"><strong>💰 Total:</strong> <span class="text-success fw-bold">R$ ${parseFloat(agendamento.total || 0).toFixed(2)}</span></p>
+            ${agendamento.observacoes ? `<p class="card-text mb-1"><small class="text-muted"><strong>💬 Obs:</strong> ${agendamento.observacoes}</small></p>` : ''}
           </div>
-          <div class="card-footer">
+          <div class="card-footer bg-white">
             ${renderizarBotoesAcao(agendamento)}
           </div>
         </div>
@@ -162,24 +161,30 @@ function renderizarBotoesAcao(agendamento) {
   
   if (agendamento.status === 'Pendente') {
     html += `
-      <button class="btn btn-sm btn-success me-2" onclick="alterarStatus(${agendamento.id}, 'Confirmado')">
-        Confirmar
-      </button>
-      <button class="btn btn-sm btn-danger" onclick="alterarStatus(${agendamento.id}, 'Cancelado')">
-        Cancelar
-      </button>
+      <div class="d-grid gap-2">
+        <button class="btn btn-success btn-sm" onclick="alterarStatus(${agendamento.id}, 'Confirmado')">
+          ✅ Confirmar
+        </button>
+        <button class="btn btn-danger btn-sm" onclick="alterarStatus(${agendamento.id}, 'Cancelado')">
+          ❌ Cancelar
+        </button>
+      </div>
     `;
   } else if (agendamento.status === 'Confirmado') {
     html += `
-      <button class="btn btn-sm btn-success me-2" onclick="alterarStatus(${agendamento.id}, 'Concluído')">
-        Marcar como Concluído
-      </button>
-      <button class="btn btn-sm btn-danger" onclick="alterarStatus(${agendamento.id}, 'Cancelado')">
-        Cancelar
-      </button>
+      <div class="d-grid gap-2">
+        <button class="btn btn-primary btn-sm" onclick="alterarStatus(${agendamento.id}, 'Concluído')">
+          ✔️ Finalizar
+        </button>
+        <button class="btn btn-danger btn-sm" onclick="alterarStatus(${agendamento.id}, 'Cancelado')">
+          ❌ Cancelar
+        </button>
+      </div>
     `;
-  } else {
-    html += `<small class="text-muted">Agendamento ${agendamento.status.toLowerCase()}</small>`;
+  } else if (agendamento.status === 'Concluído') {
+    html += `<div class="text-center"><small class="text-success fw-bold">✅ Concluído</small></div>`;
+  } else if (agendamento.status === 'Cancelado') {
+    html += `<div class="text-center"><small class="text-danger fw-bold">❌ Cancelado</small></div>`;
   }
   
   return html;
@@ -188,25 +193,30 @@ function renderizarBotoesAcao(agendamento) {
 // Função para alterar o status de um agendamento
 async function alterarStatus(agendamentoId, novoStatus) {
   try {
-    console.log(`Alterando status do agendamento ${agendamentoId} para ${novoStatus}`);
+    // Confirmação do usuário
+    const confirmar = confirm(`Tem certeza que deseja alterar o status para "${novoStatus}"?`);
+    if (!confirmar) return;
     
-    const { data, error } = await supabase
+    console.log(`🔄 Alterando status do agendamento #${agendamentoId} para ${novoStatus}...`);
+    
+    const { error } = await supabase
       .from('agendamento')
       .update({ status: novoStatus })
       .eq('id', agendamentoId);
 
     if (error) {
-      console.error('Erro ao alterar status:', error);
+      console.error('❌ Erro ao alterar status:', error);
       mostrarPopup('Erro ao alterar status: ' + error.message, 'error');
       return;
     }
 
-    mostrarPopup(`Status alterado para ${novoStatus} com sucesso!`, 'success');
+    console.log(`✅ Status alterado com sucesso!`);
+    mostrarPopup(`✅ Agendamento #${agendamentoId} → ${novoStatus}`, 'success');
     await carregarTodosAgendamentos();
     
   } catch (error) {
-    console.error('Erro ao alterar status:', error);
-    mostrarPopup('Erro ao alterar status', 'error');
+    console.error('❌ Erro ao alterar status:', error);
+    mostrarPopup('Erro ao alterar status: ' + error.message, 'error');
   }
 }
 

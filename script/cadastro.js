@@ -46,79 +46,133 @@ async function cadastrarUsuario(event) {
   }
   
   try {
-    console.log('Iniciando cadastro de usuário...');
+    console.log('🚀 INICIANDO CADASTRO...');
     
-    // Verificar se email já existe
+    // PASSO 1: Verificar se email já existe
+    console.log('🔍 Verificando se email já existe...');
     const { data: usuarioExistente, error: erroConsulta } = await supabase
       .from('usuario')
       .select('email')
-      .eq('email', email)
-      .single();
+      .eq('email', email);
     
-    if (usuarioExistente) {
+    if (usuarioExistente && usuarioExistente.length > 0) {
+      console.log('❌ Email já cadastrado');
       mostrarPopup('Este email já está cadastrado!', 'error');
       return;
     }
+    console.log('✅ Email disponível');
     
-    // Inserir novo usuário com privilégio de cliente (id 2)
-    const { data: novoUsuario, error: erroCadastro } = await supabase
+    // PASSO 2: Criar USUÁRIO primeiro
+    console.log('📝 CRIANDO USUÁRIO...');
+    const { error: erroCadastro } = await supabase
       .from('usuario')
       .insert([
         {
           email: email,
-          senha: senha, // Em produção, usar hash
-          id_privilegio_fk: 2 // 2 = cliente
+          senha: senha,
+          id_privilegio_fk: 2
         }
-      ])
-      .select()
-      .single();
+      ]);
     
     if (erroCadastro) {
-      console.error('Erro ao cadastrar usuário:', erroCadastro);
-      mostrarPopup('Erro ao cadastrar: ' + erroCadastro.message, 'error');
+      console.error('❌ ERRO ao criar usuário:', erroCadastro);
+      mostrarPopup('Erro ao cadastrar usuário: ' + erroCadastro.message, 'error');
       return;
     }
     
-    console.log('Usuário cadastrado com sucesso:', novoUsuario);
+    console.log('✅ USUÁRIO CRIADO! Buscando dados no banco...');
     
-    // Criar registro de cliente automaticamente
+    // PASSO 3: Buscar o usuário recém-criado no banco
+    const { data: usuarioBuscado, error: erroBusca } = await supabase
+      .from('usuario')
+      .select('*')
+      .eq('email', email)
+      .single();
+    
+    if (erroBusca || !usuarioBuscado) {
+      console.error('❌ ERRO ao buscar usuário:', erroBusca);
+      mostrarPopup('Erro ao buscar usuário criado: ' + (erroBusca?.message || 'Usuário não encontrado'), 'error');
+      return;
+    }
+    
+    console.log('✅ USUÁRIO ENCONTRADO no banco!');
+    console.log('   ID:', usuarioBuscado.id);
+    console.log('   Email:', usuarioBuscado.email);
+    console.log('   Privilégio:', usuarioBuscado.id_privilegio_fk);
+    
+    // PASSO 4: Criar CLIENTE vinculado ao usuário
+    console.log('📝 CRIANDO CLIENTE para usuário ID:', usuarioBuscado.id);
     const { data: novoCliente, error: erroCliente } = await supabase
       .from('cliente')
       .insert([
         {
-          id_usuario_fk: novoUsuario.id,
+          id_usuario_fk: usuarioBuscado.id,
           nome: nome,
-          cpf: cpf,
-          email: email,
-          telefone: '' // Pode ser preenchido depois no perfil
+          cpf: cpf
         }
       ])
       .select()
       .single();
     
-    if (erroCliente) {
-      console.error('Erro ao criar cliente:', erroCliente);
-      // Continua mesmo com erro, pois usuário já foi criado
-    } else {
-      console.log('Cliente criado com sucesso:', novoCliente);
+    if (erroCliente || !novoCliente) {
+      console.error('❌ ERRO ao criar cliente:', erroCliente);
+      console.error('❌ Código do erro:', erroCliente?.code);
+      console.error('❌ Mensagem:', erroCliente?.message);
+      
+      // RLS bloqueando?
+      if (erroCliente?.code === 'PGRST301' || erroCliente?.message?.includes('policy')) {
+        alert('⚠️ ERRO DE PERMISSÃO (RLS)\n\nExecute no Supabase:\n\nALTER TABLE cliente DISABLE ROW LEVEL SECURITY;');
+      }
+      
+      // Deletar usuário para não deixar órfão
+      console.log('🗑️ Deletando usuário órfão...');
+      await supabase.from('usuario').delete().eq('id', usuarioBuscado.id);
+      
+      mostrarPopup('Erro ao criar cliente: ' + (erroCliente?.message || 'Verifique permissões RLS'), 'error');
+      return;
     }
     
-    mostrarPopup('Cadastro realizado com sucesso! Redirecionando...', 'success');
+    console.log('✅ CLIENTE CRIADO com sucesso!');
+    console.log('   ID:', novoCliente.id);
+    console.log('   Nome:', novoCliente.nome);
+    console.log('   CPF:', novoCliente.cpf);
     
-    // Fazer login automático - salvar dados completos do cliente
+    // PASSO 4: Criar contato (opcional)
+    console.log('📝 Criando registro de contato...');
+    const { error: erroContato } = await supabase
+      .from('contato')
+      .insert([
+        {
+          id_cliente_fk: novoCliente.id,
+          celular: '',
+          telefone: ''
+        }
+      ]);
+    
+    if (erroContato) {
+      console.warn('⚠️ Não foi possível criar contato (não crítico):', erroContato.message);
+    } else {
+      console.log('✅ Contato criado');
+    }
+    
+    // PASSO 5: Login automático
+    console.log('💾 Fazendo login automático...');
     const dadosCompletos = {
-      ...novoUsuario,
+      ...usuarioBuscado,
       cliente: novoCliente
     };
     localStorage.setItem('usuarioLogado', JSON.stringify(dadosCompletos));
+    console.log('✅ Dados salvos no localStorage:', dadosCompletos);
+    
+    mostrarPopup('✅ Cadastro realizado com sucesso! Redirecionando...', 'success');
     
     setTimeout(() => {
       window.location.href = 'index.html';
     }, 2000);
     
   } catch (error) {
-    console.error('Erro ao cadastrar:', error);
-    mostrarPopup('Erro ao cadastrar usuário. Tente novamente.', 'error');
+    console.error('❌ ERRO GERAL:', error);
+    mostrarPopup('Erro ao cadastrar: ' + error.message, 'error');
   }
 }
 

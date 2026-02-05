@@ -1,9 +1,18 @@
 // agendamento.js
-// Usa o supabase global inicializado em app.js
-const supabaseClient = supabase
+// Função para obter o cliente Supabase
+function getSupabaseClient() {
+  if (typeof supabase === 'undefined' || !supabase) {
+    console.error('Supabase não está inicializado!');
+    return null;
+  }
+  return supabase;
+}
 
 // Buscar cliente logado pelo ID do usuario
 async function buscarCliente(idUsuario) {
+  const supabaseClient = getSupabaseClient();
+  if (!supabaseClient) return null;
+  
   const { data, error } = await supabaseClient
     .from("cliente")
     .select("id, nome, cpf")
@@ -19,6 +28,9 @@ async function buscarCliente(idUsuario) {
 
 // Buscar animais do cliente
 async function buscarAnimaisCliente(idCliente) {
+  const supabaseClient = getSupabaseClient();
+  if (!supabaseClient) return [];
+  
   const { data, error } = await supabaseClient
     .from("bando")
     .select(`
@@ -45,7 +57,8 @@ async function buscarAnimaisCliente(idCliente) {
 
 // Listar todos os serviços disponiveis
 async function listarServicos() {
-  if (typeof supabaseClient === 'undefined') {
+  const supabaseClient = getSupabaseClient();
+  if (!supabaseClient) {
     console.error("Supabase não carregado!")
     if (typeof showPopup === 'function') await showPopup('Erro interno: serviço indisponível.', 'Erro')
     return []
@@ -78,6 +91,12 @@ window.listarServicos = listarServicos;
 // Criar um novo agendamento
 async function criarAgendamento(idCliente, dataHora, servicosSelecionados) {
   console.log('🔄 Iniciando criarAgendamento:', { idCliente, dataHora, servicosSelecionados });
+  
+  const supabaseClient = getSupabaseClient();
+  if (!supabaseClient) {
+    if (typeof showPopup === 'function') await showPopup('Erro: Banco de dados não disponível', 'Erro');
+    return null;
+  }
   
   // Verificar conflitos globais antes de criar
   // calcular duração total em minutos dos serviços selecionados
@@ -183,8 +202,9 @@ function parseDurationToMinutes(d) {
 // Verifica se existe algum agendamento (de qualquer cliente) que se sobreponha
 // ao intervalo [dataHoraInput, dataHoraInput + duracaoMinutos]
 async function verificarConflitoGlobal(dataHoraInput, duracaoMinutos = 60) {
-  try {
-    const inicioNovo = new Date(dataHoraInput)
+  try {    const supabaseClient = getSupabaseClient();
+    if (!supabaseClient) return false;
+        const inicioNovo = new Date(dataHoraInput)
     const fimNovo = new Date(inicioNovo.getTime() + duracaoMinutos * 60 * 1000)
 
     const { data, error } = await supabaseClient
@@ -231,6 +251,9 @@ async function verificarConflitoGlobal(dataHoraInput, duracaoMinutos = 60) {
 
 // Buscar agendamentos do cliente
 async function buscarAgendamentos(idCliente) {
+  const supabaseClient = getSupabaseClient();
+  if (!supabaseClient) return [];
+  
   const { data, error } = await supabaseClient
     .from("agendamento")
     .select(`
@@ -257,6 +280,12 @@ async function buscarAgendamentos(idCliente) {
 
 // Cadastrar novo animal
 async function cadastrarAnimal(nome, especie, raca, sexo, idade, temperamento, idCliente) {
+  const supabaseClient = getSupabaseClient();
+  if (!supabaseClient) {
+    if (typeof showPopup === 'function') await showPopup('Erro: Banco de dados não disponível', 'Erro');
+    return null;
+  }
+  
   // Inserir animal
   const { data: animal, error: erroAnimal } = await supabaseClient
     .from("animal")
@@ -299,6 +328,9 @@ async function cadastrarAnimal(nome, especie, raca, sexo, idade, temperamento, i
 
 // Atualizar status do agendamento
 async function atualizarStatusAgendamento(idAgendamento, novoStatus) {
+  const supabaseClient = getSupabaseClient();
+  if (!supabaseClient) return { error: 'Banco de dados não disponível' };
+  
   const { data, error } = await supabaseClient
     .from("agendamento")
     .update({ status: novoStatus })

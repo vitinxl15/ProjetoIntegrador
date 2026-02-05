@@ -1,39 +1,30 @@
-* {
-    color: rgb(0, 2, 3);
+/* Perfil - Estilos mínimos */
+body {
+    background-color: #F9ECE4;
 }
 
-.perfilContainer {
-    width: 100%;
-    text-align: center;
-    margin-top: 0%;
-    margin-bottom: 80px;
-    display: flex;
-    height: 5vh;
-    background-color: brown;
+.container h2 {
+    color: #333;
+    font-weight: 600;
 }
 
-.perfilCategory {
-    width: 33%;
-    border: 1px solid #1b1b1b;
-    border-bottom: none;
-    border-top: none;
-    text-align: center;
-    margin: auto;
+/* Status dos agendamentos */
+.badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #000 !important;
 }
 
-.perfilContent {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    background-color: #DFA46A;
-    padding: 40px 20px;
-    margin-left: 10vw;
-    margin-right: 10vw;
-    margin-bottom: 10vh;
-    text-align: center;
-    border-radius: 10px;
-   
-    height: 60%;
+.badge.bg-success {
+    background-color: #198754 !important;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.badge.bg-info {
+    background-color: #0dcaf0 !important;
+    color: #000 !important;
 }
 
 
