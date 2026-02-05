@@ -1,6 +1,6 @@
 // Inicialização do Supabase
-const SUPABASE_URL = 'https://xqjlmwxikmvgfltaoyhs.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhxamxtd3hpa212Z2ZsdGFveWhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI5MjA1NjEsImV4cCI6MjA0ODQ5NjU2MX0.z4YmVl2ubvSbQgfXMSQzkKgQ4nWAp-oDnPbjuAYDCk8';
+const SUPABASE_URL = 'https://uhhagvmmxtcavngjdaik.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoaGFndm1teHRjYXZuZ2pkYWlrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMzQ5MTQsImV4cCI6MjA3MzgxMDkxNH0.myBAOKrgVRKi82SeGC9r_P1N1-Z9tLtvN2cpk_MCYdQ';
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -21,7 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (usuarioLogado) {
     if (saudacaoDiv) {
-      saudacaoDiv.textContent = `Olá, ${usuarioLogado.email}!`;
+      const nomeExibir = usuarioLogado.cliente?.nome || usuarioLogado.email;
+      saudacaoDiv.textContent = `Olá, ${nomeExibir}!`;
     }
     if (linkCadastro) linkCadastro.style.display = "none"
     if (linkLogin) linkLogin.style.display = "none"

@@ -38,8 +38,10 @@ async function cadastrarUsuario(event) {
     return;
   }
   
-  if (!validarCPF(cpf)) {
-    mostrarPopup('CPF inválido!', 'error');
+  // Validar apenas o tamanho do CPF (11 dígitos)
+  const cpfLimpo = cpf.replace(/[^\d]/g, '');
+  if (cpfLimpo.length !== 11) {
+    mostrarPopup('CPF deve conter 11 dígitos!', 'error');
     return;
   }
   
@@ -58,16 +60,14 @@ async function cadastrarUsuario(event) {
       return;
     }
     
-    // Inserir novo usuário
+    // Inserir novo usuário com privilégio de cliente (id 2)
     const { data: novoUsuario, error: erroCadastro } = await supabase
       .from('usuario')
       .insert([
         {
-          nome: nome,
-          cpf: cpf,
           email: email,
           senha: senha, // Em produção, usar hash
-          cargo: 'cliente'
+          id_privilegio_fk: 2 // 2 = cliente
         }
       ])
       .select()
@@ -86,7 +86,7 @@ async function cadastrarUsuario(event) {
       .from('cliente')
       .insert([
         {
-          usuario_id: novoUsuario.id,
+          id_usuario_fk: novoUsuario.id,
           nome: nome,
           cpf: cpf,
           email: email,
@@ -105,11 +105,15 @@ async function cadastrarUsuario(event) {
     
     mostrarPopup('Cadastro realizado com sucesso! Redirecionando...', 'success');
     
-    // Fazer login automático
-    localStorage.setItem('usuarioLogado', JSON.stringify(novoUsuario));
+    // Fazer login automático - salvar dados completos do cliente
+    const dadosCompletos = {
+      ...novoUsuario,
+      cliente: novoCliente
+    };
+    localStorage.setItem('usuarioLogado', JSON.stringify(dadosCompletos));
     
     setTimeout(() => {
-      window.location.href = 'perfil.html';
+      window.location.href = 'index.html';
     }, 2000);
     
   } catch (error) {
@@ -122,36 +126,4 @@ async function cadastrarUsuario(event) {
 function validarEmail(email) {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
-}
-
-// Função para validar CPF
-function validarCPF(cpf) {
-  cpf = cpf.replace(/[^\d]/g, '');
-  
-  if (cpf.length !== 11) return false;
-  
-  // Verifica se todos os dígitos são iguais
-  if (/^(\d)\1+$/.test(cpf)) return false;
-  
-  // Validação do primeiro dígito verificador
-  let soma = 0;
-  for (let i = 0; i < 9; i++) {
-    soma += parseInt(cpf.charAt(i)) * (10 - i);
-  }
-  let resto = 11 - (soma % 11);
-  let digitoVerificador1 = resto >= 10 ? 0 : resto;
-  
-  if (digitoVerificador1 !== parseInt(cpf.charAt(9))) return false;
-  
-  // Validação do segundo dígito verificador
-  soma = 0;
-  for (let i = 0; i < 10; i++) {
-    soma += parseInt(cpf.charAt(i)) * (11 - i);
-  }
-  resto = 11 - (soma % 11);
-  let digitoVerificador2 = resto >= 10 ? 0 : resto;
-  
-  if (digitoVerificador2 !== parseInt(cpf.charAt(10))) return false;
-  
-  return true;
 }

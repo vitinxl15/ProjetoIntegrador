@@ -10,7 +10,7 @@ USING (
   EXISTS (
     SELECT 1 FROM usuario
     WHERE usuario.id = auth.uid()::text
-    AND usuario.cargo = 'admin'
+    AND usuario.id_privilegio_fk = 1
   )
 );
 
@@ -23,7 +23,7 @@ USING (
   EXISTS (
     SELECT 1 FROM usuario
     WHERE usuario.id = auth.uid()::text
-    AND usuario.cargo = 'admin'
+    AND usuario.id_privilegio_fk = 1
   )
 );
 
@@ -36,7 +36,7 @@ USING (
   EXISTS (
     SELECT 1 FROM usuario
     WHERE usuario.id = auth.uid()::text
-    AND usuario.cargo = 'admin'
+    AND usuario.id_privilegio_fk = 1
   )
 );
 

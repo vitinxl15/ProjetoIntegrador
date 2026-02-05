@@ -9,7 +9,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // Verificar se já está logado
   const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
   if (usuarioLogado) {
-    window.location.href = 'perfil.html';
+    if (usuarioLogado.id_privilegio_fk === 1) {
+      window.location.href = 'adm.html';
+    } else {
+      window.location.href = 'index.html';
+    }
   }
 });
 
@@ -27,33 +31,48 @@ async function fazerLogin(event) {
   try {
     console.log('Tentando fazer login...');
     
-    // Buscar usuário no banco
+    // Buscar usuário no banco (sem JOIN complexo)
     const { data: usuario, error } = await supabase
       .from('usuario')
       .select('*')
       .eq('email', email)
-      .eq('senha', senha) // Em produção, usar hash
-      .single();
+      .eq('senha', senha);
     
-    if (error || !usuario) {
+    if (error) {
       console.error('Erro ao fazer login:', error);
+      mostrarPopup('Erro ao fazer login. Tente novamente.', 'error');
+      return;
+    }
+    
+    if (!usuario || usuario.length === 0) {
       mostrarPopup('Email ou senha incorretos!', 'error');
       return;
     }
     
-    console.log('Login realizado com sucesso:', usuario);
+    const usuarioLogado = usuario[0];
+    console.log('Login realizado com sucesso:', usuarioLogado);
+    
+    // Buscar dados do cliente se existir
+    const { data: cliente } = await supabase
+      .from('cliente')
+      .select('*')
+      .eq('id_usuario_fk', usuarioLogado.id);
+    
+    if (cliente && cliente.length > 0) {
+      usuarioLogado.cliente = cliente[0];
+    }
     
     // Salvar usuário no localStorage
-    localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+    localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
     
     mostrarPopup('Login realizado com sucesso!', 'success');
     
-    // Redirecionar baseado no cargo
+    // Redirecionar baseado no id_privilegio_fk
     setTimeout(() => {
-      if (usuario.cargo === 'admin') {
+      if (usuarioLogado.id_privilegio_fk === 1) {
         window.location.href = 'adm.html';
       } else {
-        window.location.href = 'perfil.html';
+        window.location.href = 'index.html';
       }
     }, 1500);
     

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   }
 
   // Verificar se o usuário é admin
-  if (usuarioLogado.cargo !== 'admin') {
+  if (usuarioLogado.id_privilegio_fk !== 1) {
     mostrarPopup('Acesso negado! Apenas administradores podem acessar esta página.', 'error');
     setTimeout(() => {
       window.location.href = 'index.html';
@@ -23,8 +23,9 @@ document.addEventListener('DOMContentLoaded', async function() {
   // Exibir saudação ao usuário
   const saudacaoDiv = document.getElementById('saudacaoUsuario');
   if (saudacaoDiv) {
+    const nomeUsuario = usuarioLogado.cliente?.nome || usuarioLogado.email;
     saudacaoDiv.innerHTML = `
-      <p>Bem-vindo, ${usuarioLogado.nome}!</p>
+      <p>Bem-vindo, ${nomeUsuario}!</p>
       <p>Perfil: Administrador</p>
     `;
   }

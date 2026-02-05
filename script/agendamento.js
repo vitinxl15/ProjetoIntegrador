@@ -8,14 +8,13 @@ async function buscarCliente(idUsuario) {
     .from("cliente")
     .select("id, nome, cpf")
     .eq("id_usuario_fk", idUsuario)
-    .single()
 
   if (error) {
     console.error("Erro ao buscar cliente:", error.message)
     if (typeof showPopup === 'function') await showPopup('Erro ao carregar seus dados. Tente novamente.', 'Erro')
     return null
   }
-  return data
+  return data && data.length > 0 ? data[0] : null
 }
 
 // Buscar animais do cliente
