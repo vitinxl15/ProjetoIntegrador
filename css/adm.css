@@ -1,53 +1,112 @@
-.catalogo {
-  position: relative; /* vira referência pro botão */
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-  background-color: #bde3ef; /* só exemplo */
-  border-radius: 10px;
+/* Estilos para página de administração */
+.saudacao {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+  text-align: center;
 }
 
-/* botão no canto superior direito */
-#btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
-  padding: 0;
+.saudacao p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #333;
 }
-@media (max-width: 600px) {
-  .catalogo {
+
+/* Cards de agendamento */
+.card {
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  font-weight: bold;
+  padding: 12px 15px;
+}
+
+.card-body {
+  padding: 15px;
+  font-size: 14px;
+}
+
+.card-body p {
+  margin-bottom: 8px;
+}
+
+.card-footer {
+  padding: 12px 15px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Status do agendamento */
+.bg-warning {
+  background-color: #ffc107 !important;
+}
+
+.bg-info {
+  background-color: #17a2b8 !important;
+}
+
+.bg-success {
+  background-color: #28a745 !important;
+}
+
+.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+.bg-secondary {
+  background-color: #6c757d !important;
+}
+
+/* Botões */
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 13px;
+}
+
+/* Filtros */
+.card.mb-4 {
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .card-footer {
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
+  }
+  
+  .card-footer .btn {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+}
+
+@media (max-width: 600px) {
+  .saudacao {
     padding: 10px;
   }
-  #btn {
-    top: 5px;
-    right: 5px;
-    width: 30px;
-    height: 30px;
-    font-size: 15px;
+  
+  .saudacao p {
+    font-size: 14px;
+  }
+  
+  .card-body {
+    font-size: 13px;
   }
 }
-@media (max-width: 400px) {
-  .catalogo {
-    gap: 5px;
-    padding: 5px;
-  }
-  #btn {
-    top: 2px;
-    right: 2px;
-    width: 25px;
-    height: 25px;
-    font-size: 10px;
-  }
-}
-@media (max-width: 992px) {
+
   .catalogo {
     gap: 10px;
     padding: 10px;

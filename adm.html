@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cadastro - Focinho Gelado</title>
+  <title>Administração - Focinho Gelado</title>
   
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css" />
@@ -16,68 +15,91 @@
     <div class="headerContainer">
       <div class="logo">
         <img src="img/logo.png" class="logoImg" alt="Logo" />
-        <h1>Focinho Gelado</h1>
+        <h1>Focinho Gelado - Administração</h1>
       </div>
       
       <nav class="navbar navbar-expand-lg" style="border-radius: 10px;">
-  <div class="container-fluid">
-    <a class="navbar-brand" style="display: none;" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="index.html">Inico</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="cadastro.html">Cadastro</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="login.html">Login</a>
-        </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="adm.html">Painel Admin</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html">Voltar ao Site</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" onclick="fazerLogout()">Sair</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </div>
     <div id="saudacaoUsuario" class="saudacao"></div>
   </header>
   
-  <div class="bannerContainer">
-    <img src="img/banner.png" class="bannerImg" alt="Banner" />
-  </div>
-<div class="catalogo">
-  <button type="button" class="btn btn-outline-primary" id = "btn">+</button>
-  <div class="card">
-    <img src="img/banho.png" alt="Banho">
-    <div class="card-body">
-      <h5 class="card-title">Banho</h5>
-      <a href="sobre.html#banho"><button class="btn">Sobre</button></a>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Gerenciamento de Agendamentos</h2>
+        <p class="text-muted">Visualize e gerencie todos os agendamentos do estabelecimento</p>
+        
+        <!-- Filtros -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3">
+                <label for="filtroStatus" class="form-label">Status:</label>
+                <select id="filtroStatus" class="form-select">
+                  <option value="">Todos</option>
+                  <option value="Pendente">Pendente</option>
+                  <option value="Confirmado">Confirmado</option>
+                  <option value="Concluído">Concluído</option>
+                  <option value="Cancelado">Cancelado</option>
+                </select>
+              </div>
+              <div class="col-md-3">
+                <label for="filtroData" class="form-label">Data:</label>
+                <input type="date" id="filtroData" class="form-control">
+              </div>
+              <div class="col-md-3">
+                <label for="filtroCliente" class="form-label">Cliente:</label>
+                <input type="text" id="filtroCliente" class="form-control" placeholder="Buscar por nome...">
+              </div>
+              <div class="col-md-3 d-flex align-items-end">
+                <button onclick="aplicarFiltros()" class="btn btn-primary w-100">Filtrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Lista de Agendamentos -->
+        <div id="listaAgendamentos" class="row">
+          <div class="col-12 text-center p-5">
+            <p class="text-muted">Carregando agendamentos...</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <img src="img/banho.png" alt="Tosa">
-    <div class="card-body">
-      <h5 class="card-title">Tosa</h5>
-      <a href="sobre.html#tosa"><button class="btn">Sobre</button></a>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="img/banho.png" alt="Hidratação">
-    <div class="card-body">
-      <h5 class="card-title">Hidratação</h5>
-      <a href="sobre.html#hidratacao"><button class="btn">Sobre</button></a>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="img/banho.png" alt="Unhas">
-    <div class="card-body">
-      <h5 class="card-title">Unhas</h5>
+  <footer style="position: relative; bottom: 0; width: 100%; left: 0; justify-content: center; display: flex; margin-top: 50px;">
+    <p>&copy; Focinho Gelado - 2025</p>
+  </footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="script/popup.js"></script>
+  <script src="script/agendamento.js"></script>
+  <script src="script/app.js"></script>
+  <script src="script/adm.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  
+</body>
+</html>
       <a href="sobre.html#unhas"><button class="btn">Sobre</button></a>
     </div>
   </div>
