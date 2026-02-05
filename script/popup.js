@@ -56,3 +56,14 @@ function showPopup(message, title = '') {
     document.body.appendChild(overlay)
   })
 }
+
+// Função auxiliar para mostrar popup com tipo (success, error, info)
+function mostrarPopup(message, type = 'info') {
+  console.log(`[${type.toUpperCase()}] ${message}`);
+  
+  const title = type === 'error' ? 'Erro' : 
+                type === 'success' ? 'Sucesso' : 
+                'Informação';
+  
+  return showPopup(message, title);
+}

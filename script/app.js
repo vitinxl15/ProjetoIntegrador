@@ -1,3 +1,10 @@
+// Inicialização do Supabase
+const SUPABASE_URL = 'https://xqjlmwxikmvgfltaoyhs.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhxamxtd3hpa212Z2ZsdGFveWhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI5MjA1NjEsImV4cCI6MjA0ODQ5NjU2MX0.z4YmVl2ubvSbQgfXMSQzkKgQ4nWAp-oDnPbjuAYDCk8';
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+console.log('Supabase inicializado:', supabase);
 function fazerLogout() {
   localStorage.removeItem("usuarioLogado")
   window.location.href = "index.html"
