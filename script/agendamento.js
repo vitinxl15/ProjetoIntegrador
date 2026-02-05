@@ -53,15 +53,26 @@ async function listarServicos() {
     if (typeof showPopup === 'function') await showPopup('Erro interno: serviço indisponível.', 'Erro')
     return []
   }
+
+  console.log("🔍 Iniciando listagem de serviços...");
+
   const { data, error } = await supabaseClient
     .from("servico")
     .select("id, nome, descricao, preco, duracao")
 
   if (error) {
-     console.error("Erro ao listar serviços:", error.message)
-     if (typeof showPopup === 'function') await showPopup('Erro ao listar serviços. Tente novamente mais tarde.', 'Erro')
-     return []
+    console.error("Erro ao listar serviços:", error.message)
+    if (typeof showPopup === 'function') await showPopup('Erro ao listar serviços. Tente novamente mais tarde.', 'Erro')
+    return []
   }
+
+  if (!data || data.length === 0) {
+    console.warn("⚠️ Nenhum serviço encontrado no banco de dados.");
+    if (typeof showPopup === 'function') await showPopup('Nenhum serviço disponível no momento.', 'Atenção')
+    return []
+  }
+
+  console.log("✅ Serviços encontrados:", data);
   return data
 }
 
@@ -69,22 +80,32 @@ window.listarServicos = listarServicos;
 
 // Criar um novo agendamento
 async function criarAgendamento(idCliente, dataHora, servicosSelecionados) {
+  console.log('🔄 Iniciando criarAgendamento:', { idCliente, dataHora, servicosSelecionados });
+  
   // Verificar conflitos globais antes de criar
   // calcular duração total em minutos dos serviços selecionados
   const duracaoTotalMin = servicosSelecionados.reduce((soma, s) => {
     return soma + (s.duracaoMinutos || 60)
   }, 0)
+  
+  console.log('⏱️ Duração total:', duracaoTotalMin, 'minutos');
+  
   const conflito = await verificarConflitoGlobal(dataHora, duracaoTotalMin)
   if (conflito) {
+    console.warn('⚠️ Conflito de horário detectado');
     if (typeof showPopup === 'function') await showPopup('Já existe um agendamento próximo a este horário. Escolha outro horário.', 'Atenção')
     return null
   }
+  
   // Calcular total
   const total = servicosSelecionados.reduce((soma, servico) => {
     return soma + parseFloat(servico.preco)
   }, 0)
 
+  console.log('💰 Total calculado:', total);
+  
   // Inserir agendamento
+  console.log('📝 Tentando inserir agendamento no banco...');
   const { data: agendamento, error: erroAgendamento } = await supabaseClient
     .from("agendamento")
     .insert([{
@@ -97,12 +118,26 @@ async function criarAgendamento(idCliente, dataHora, servicosSelecionados) {
     .single()
 
   if (erroAgendamento) {
-    console.error("Erro ao criar agendamento:", erroAgendamento.message)
-    await showPopup("Erro ao criar agendamento.", "Erro")
+    console.error("❌ Erro ao criar agendamento:", erroAgendamento);
+    console.error("Detalhes do erro:", {
+      message: erroAgendamento.message,
+      details: erroAgendamento.details,
+      hint: erroAgendamento.hint,
+      code: erroAgendamento.code
+    });
+    
+    if (erroAgendamento.message && erroAgendamento.message.includes('row-level security')) {
+      await showPopup("Erro de permissão: Verifique as políticas de segurança (RLS) no Supabase.", "Erro")
+    } else {
+      await showPopup("Erro ao criar agendamento: " + erroAgendamento.message, "Erro")
+    }
     return null
   }
 
+  console.log('✅ Agendamento criado:', agendamento);
+
   // Inserir itens do agendamento
+  console.log('📋 Inserindo itens do agendamento...');
   const itens = servicosSelecionados.map(servico => ({
     id_agendamento_fk: agendamento.id,
     id_servico_fk: servico.id
@@ -113,10 +148,12 @@ async function criarAgendamento(idCliente, dataHora, servicosSelecionados) {
     .insert(itens)
 
   if (erroItens) {
-    console.error("Erro ao adicionar itens:", erroItens.message)
+    console.error("❌ Erro ao adicionar itens:", erroItens)
     await showPopup("Erro ao adicionar serviços ao agendamento.", "Erro")
     return null
   }
+
+  console.log('✅ Itens adicionados com sucesso');
 
   console.log("Agendamento criado com sucesso:", agendamento)
   return agendamento
@@ -298,65 +335,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     return
   }
 
-  const servicoParaAgendar = JSON.parse(localStorage.getItem("servicoParaAgendar"))
-  const clienteParaAgendar = JSON.parse(localStorage.getItem("clienteParaAgendar"))
-
-  if (!servicoParaAgendar || !clienteParaAgendar) {
-    await showPopup("Selecione um serviço primeiro!", "Atenção")
-    window.location.href = "index.html"
-    return
-  }
-
-  document.getElementById("nomeServico").textContent = servicoParaAgendar.nome
-  document.getElementById("precoServico").textContent = `Valor: R$ ${parseFloat(servicoParaAgendar.preco).toFixed(2)}`
-
-  const formAgendamento = document.getElementById("formAgendamento")
-  if (formAgendamento) {
-    formAgendamento.addEventListener("submit", async (e) => {
-      e.preventDefault()
-
-      const dataHoraInput = document.getElementById("dataHora").value
-      const dataHora = new Date(dataHoraInput)
-
-      // duração do serviço em minutos (fallback 60)
-      const duracaoMin = parseDurationToMinutos(servicoParaAgendar.duracao)
-
-      const fimAgendamento = new Date(dataHora.getTime() + duracaoMin * 60 * 1000)
-      const inicioDia = new Date(dataHora)
-      inicioDia.setHours(8, 0, 0, 0)
-      const fimDia = new Date(dataHora)
-      fimDia.setHours(18, 0, 0, 0)
-
-      if (dataHora < inicioDia || fimAgendamento > fimDia) {
-        await showPopup("Agendamento deve começar e terminar entre 08:00 e 18:00.", "Atenção")
-        return
-      }
-
-      // verificar conflito global (sobreposição com qualquer agendamento existente)
-      const conflito = await verificarConflitoGlobal(dataHoraInput, duracaoMin)
-      if (conflito) {
-        await showPopup("Já existe um agendamento próximo a este horário. Escolha outro horário.", "Atenção")
-        return
-      }
-
-      const servicosSelecionados = [{
-        id: servicoParaAgendar.id,
-        preco: servicoParaAgendar.preco,
-        duracaoMinutos: duracaoMin
-      }]
-
-      const resultado = await criarAgendamento(
-        clienteParaAgendar.id,
-        dataHoraInput,
-        servicosSelecionados
-      )
-      
-      if (resultado) {
-        localStorage.removeItem("servicoParaAgendar")
-        localStorage.removeItem("clienteParaAgendar")
-        await showPopup("Agendamento realizado com sucesso!", "Sucesso")
-        window.location.href = "perfil.html"
-      }
-    })
-  }
+  // Removida a verificação de servicoParaAgendar do localStorage
+  // O serviço agora é selecionado diretamente no modal do index.html
+  
+  console.log('✅ Página de agendamento carregada. Agendamento será feito diretamente do modal.')
 })
