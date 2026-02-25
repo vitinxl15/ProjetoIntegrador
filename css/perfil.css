@@ -1,7 +1,39 @@
 /* Perfil - Estilos mínimos */
 body {
-    background-color: #F9ECE4;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #DFA46A;
+    line-height: 1.6;
+    color: #333; 
 }
+
+header {
+    background: linear-gradient(to right, #DFA46A, #DFA46A, #DFA46A);
+    padding: 20px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.headerContainer {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logoImg {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
 
 .container h2 {
     color: #333;
@@ -85,6 +117,7 @@ ul {
     overflow: hidden;
     /* evita estourar */
 }
+
 
 
 /* Tablets */

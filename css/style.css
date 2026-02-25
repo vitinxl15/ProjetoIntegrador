@@ -431,49 +431,45 @@ form button:hover {
 li{
   z-index: 99;
 }
-/* Tablets (até 992px) */
+/* Tablet */
 @media (max-width: 992px) {
-    header h1 {
-        font-size: 1.8em;
-    }
-    .headerContainer {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-    }
-    footer {
-        padding: 15px 0;
-        font-size: 0.95em;
-    }
+
+  .catalogo {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .headerContainer {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .sobre {
+    flex-direction: column;
+  }
 }
 
-/* Celulares grandes (até 768px) */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 1.5em;
-    }
-    .headerContainer {
-        padding: 0 10px;
-    }
-    footer {
-        padding: 12px 0;
-        font-size: 0.9em;
-    }
-}
+/* Celular */
+@media (max-width: 600px) {
 
-/* Celulares pequenos (até 480px) */
-@media (max-width: 480px) {
-    header h1 {
-        font-size: 1.2em;
-    }
-    .headerContainer {
-        flex-direction: column;
-        padding: 0 5px;
-    }
-    footer {
-        padding: 10px 0;
-        font-size: 0.85em;
-    }
+  .catalogo {
+    grid-template-columns: 1fr;
+  }
+
+  .logoImg {
+    width: 60px;
+    height: 60px;
+  }
+
+  header h1 {
+    font-size: 1.5em;
+  }
+
+  .formContainer {
+    width: 95%;
+    padding: 20px;
+  }
+
 }
 .container-fluid{
   background-color: #37e7e7;
@@ -522,8 +518,3 @@ li{
     grid-template-columns: 1fr;
   }
 }
-
-
-
-
-

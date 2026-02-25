@@ -22,6 +22,8 @@
   "homepage": "https://github.com/Rafael3323/ProjetoIntegrador#readme",
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "http-server": "^14.1.1",
+    "whatwg-encoding": "^3.1.1"
   }
 }
